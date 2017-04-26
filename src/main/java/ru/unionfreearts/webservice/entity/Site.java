@@ -1,13 +1,11 @@
 package ru.unionfreearts.webservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
-@Component
 @Entity
 @Table(name = "sites")
 public class Site implements Serializable {
