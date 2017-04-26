@@ -12,7 +12,7 @@ public class Site implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private Long id;
+    private long id;
     @Column(name = "name", length = 248, nullable = false, unique = true)
     private String name;
     @JsonIgnore
@@ -22,16 +22,16 @@ public class Site implements Serializable {
     public Site() {
     }
 
-    public Site(Long id, String name) {
+    public Site(long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

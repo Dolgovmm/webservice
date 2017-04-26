@@ -28,7 +28,7 @@ public class SiteController {
     @Autowired
     private Repository repository = new FakeRepositorySiteImpl();
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Long> addSite(@RequestBody String json) {
         Site site = null;
@@ -36,9 +36,9 @@ public class SiteController {
         try {
             site = new ObjectMapper().readValue(json, Site.class);
             repository.add(site);
-            response = new ResponseEntity<Long>(1l, HttpStatus.OK);
+            response = new ResponseEntity<Long>(site.getId(), HttpStatus.OK);
         } catch (IOException e) {
-            response = new ResponseEntity<Long>(2l, HttpStatus.BAD_REQUEST);
+            response = new ResponseEntity<Long>(-1l, HttpStatus.BAD_REQUEST);
         }
         return response;
     }

@@ -12,7 +12,7 @@ public class Person implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private Long id;
+    private long id;
     @Column(name = "name", length = 248, nullable = false, unique = true)
     private String name;
     @JsonIgnore
@@ -25,7 +25,7 @@ public class Person implements Serializable {
     public Person() {
     }
 
-    public Person(Long id, String name) {
+    public Person(long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -34,7 +34,7 @@ public class Person implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

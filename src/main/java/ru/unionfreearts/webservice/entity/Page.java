@@ -13,7 +13,7 @@ public class Page implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private Long id;
+    private long id;
     @Column(name = "url", length = 248, nullable = false, unique = true)
     private String url;
     @ManyToOne(targetEntity = Site.class)
@@ -29,7 +29,7 @@ public class Page implements Serializable {
     public Page() {
     }
 
-    public Page(Long id, String url, Site site, Date foundDateTime, Date lastDateTime) {
+    public Page(long id, String url, Site site, Date foundDateTime, Date lastDateTime) {
         this.id = id;
         this.url = url;
         this.site = site;
@@ -41,7 +41,7 @@ public class Page implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -11,7 +11,7 @@ public class Keyword implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private Long id;
+    private long id;
     @Column(name = "name", length = 248, nullable = false, unique = true)
     private String name;
     @ManyToOne(targetEntity = Person.class)
@@ -20,7 +20,7 @@ public class Keyword implements Serializable {
     public Keyword() {
     }
 
-    public Keyword(Long id, String name, Person person) {
+    public Keyword(long id, String name, Person person) {
         this.id = id;
         this.name = name;
         this.person = person;
@@ -30,7 +30,7 @@ public class Keyword implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
