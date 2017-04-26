@@ -19,8 +19,8 @@ public class FakeRepositorySiteImpl implements Repository<Site> {
         return list;
     }
 
-    public Site get(int id) {
-        return list.get(id);
+    public Site get(long id) {
+        return list.get(((int) id));
     }
 
     public boolean remove(Site entity) {

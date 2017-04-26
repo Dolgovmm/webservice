@@ -19,8 +19,8 @@ public class FakeRepositoryPersonImpl implements Repository<Person> {
         return list;
     }
 
-    public Person get(int id) {
-        return list.get(id);
+    public Person get(long id) {
+        return list.get((int)id);
     }
 
     public boolean remove(Person entity) {

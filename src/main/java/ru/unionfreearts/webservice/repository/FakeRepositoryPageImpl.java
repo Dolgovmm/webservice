@@ -19,8 +19,8 @@ public class FakeRepositoryPageImpl implements Repository<Page> {
         return list;
     }
 
-    public Page get(int id) {
-        return list.get(id);
+    public Page get(long id) {
+        return list.get((int)id);
     }
 
     public boolean remove(Page entity) {

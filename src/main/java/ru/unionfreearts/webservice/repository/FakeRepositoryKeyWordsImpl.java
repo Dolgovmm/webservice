@@ -19,8 +19,8 @@ public class FakeRepositoryKeyWordsImpl implements Repository<Keyword>{
         return list;
     }
 
-    public Keyword get(int id) {
-        return list.get(id);
+    public Keyword get(long id) {
+        return list.get((int)id);
     }
 
     public boolean remove(Keyword entity) {

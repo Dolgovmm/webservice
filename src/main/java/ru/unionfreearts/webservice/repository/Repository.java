@@ -11,7 +11,7 @@ public interface Repository<T> {
 
     public List<T> getAll();
 
-    public T get(int id);
+    public T get(long id);
 
     public boolean remove(T entity);
 
