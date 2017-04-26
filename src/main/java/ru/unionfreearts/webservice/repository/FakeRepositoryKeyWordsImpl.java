@@ -27,7 +27,7 @@ public class FakeRepositoryKeyWordsImpl implements Repository<Keyword>{
         return list.remove(entity);
     }
 
-    public boolean set(Keyword entity) {
+    public boolean update(Keyword entity) {
         return true;
     }
 }

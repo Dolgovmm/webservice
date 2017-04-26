@@ -79,7 +79,7 @@ public class SiteController {
         ResponseEntity<Boolean> response;
         try{
             site = new ObjectMapper().readValue(json, Site.class);
-            boolean updated = repository.set(site);
+            boolean updated = repository.update(site);
             response = new ResponseEntity<Boolean>(updated, HttpStatus.OK);
         }catch (IOException ex){
             response = new ResponseEntity<Boolean>(HttpStatus.BAD_REQUEST);

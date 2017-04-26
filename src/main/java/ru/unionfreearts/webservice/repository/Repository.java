@@ -15,5 +15,5 @@ public interface Repository<T> {
 
     public boolean remove(T entity);
 
-    public boolean set(T entity);
+    public boolean update(T entity);
 }

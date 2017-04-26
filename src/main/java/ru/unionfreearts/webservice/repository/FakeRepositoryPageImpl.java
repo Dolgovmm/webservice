@@ -27,7 +27,7 @@ public class FakeRepositoryPageImpl implements Repository<Page> {
         return list.remove(entity);
     }
 
-    public boolean set(Page entity) {
+    public boolean update(Page entity) {
         return true;
     }
 }

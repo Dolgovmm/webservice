@@ -27,7 +27,7 @@ public class FakeRepositoryPersonImpl implements Repository<Person> {
         return list.remove(entity);
     }
 
-    public boolean set(Person entity) {
+    public boolean update(Person entity) {
         return true;
     }
 }
