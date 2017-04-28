@@ -9,6 +9,7 @@ import java.util.List;
  * Created by Михалыч on 26.04.2017.
  */
 public class FakeRepositorySiteImpl implements Repository<Site> {
+
     private List<Site> list = new ArrayList<Site>();
 
     public boolean add(Site entity) {
