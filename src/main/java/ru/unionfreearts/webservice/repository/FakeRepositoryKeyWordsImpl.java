@@ -11,8 +11,9 @@ import java.util.List;
 public class FakeRepositoryKeyWordsImpl implements Repository<Keyword>{
     private List<Keyword> list = new ArrayList<Keyword>();
 
-    public boolean add(Keyword entity) {
-        return list.add(entity);
+    public long add(Keyword entity) {
+        list.add(entity);
+        return list.indexOf(entity);
     }
 
     public List<Keyword> getAll() {

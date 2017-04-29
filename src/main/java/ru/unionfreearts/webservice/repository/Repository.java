@@ -7,7 +7,7 @@ import java.util.List;
  */
 public interface Repository<T> {
 
-    public boolean add(T entity);
+    public long add(T entity);
 
     public List<T> getAll();
 

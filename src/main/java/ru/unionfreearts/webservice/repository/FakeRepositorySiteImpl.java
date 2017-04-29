@@ -12,8 +12,9 @@ public class FakeRepositorySiteImpl implements Repository<Site> {
 
     private List<Site> list = new ArrayList<Site>();
 
-    public boolean add(Site entity) {
-        return list.add(entity);
+    public long add(Site entity) {
+        list.add(entity);
+        return list.indexOf(entity);
     }
 
     public List<Site> getAll() {

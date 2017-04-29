@@ -25,31 +25,30 @@ import java.util.Map;
 public class SiteController {
 
     @Autowired
-    private Repository repository;// = new FakeRepositorySiteImpl();
+    private Repository repository;
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Long> addSite(@RequestBody String json) {
+    public ResponseEntity<Long> addSite(@PathVariable String json) {
         Site site = null;
         ResponseEntity<Long> response;
         try {
             site = new ObjectMapper().readValue(json, Site.class);
-            repository.add(site);
+            site.setId(repository.add(site));
             response = new ResponseEntity<Long>(site.getId(), HttpStatus.OK);
         } catch (IOException e) {
             response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
-            return response;
         }
         return response;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Site> getSiteById(@RequestBody long id){
+    public ResponseEntity<Site> getSiteById(@PathVariable long id){
         Site site = null;
         ResponseEntity<Site> response;
-        //site = (Site)repository.get(id);
-        site = new Site(1l, "lenta.ru");
+        site = (Site)repository.get(id);
+        //site = new Site(1l, "lenta.ru");
         if (site != null) {
             response = new ResponseEntity<Site>(site, HttpStatus.OK);
         }else{

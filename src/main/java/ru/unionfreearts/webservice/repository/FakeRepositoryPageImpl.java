@@ -11,8 +11,9 @@ import java.util.List;
 public class FakeRepositoryPageImpl implements Repository<Page> {
     private List<Page> list = new ArrayList<Page>();
 
-    public boolean add(Page entity) {
-        return list.add(entity);
+    public long add(Page entity) {
+        list.add(entity);
+        return list.indexOf(entity);
     }
 
     public List<Page> getAll() {

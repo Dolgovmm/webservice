@@ -11,8 +11,9 @@ import java.util.List;
 public class FakeRepositoryPersonImpl implements Repository<Person> {
     private List<Person> list = new ArrayList<Person>();
 
-    public boolean add(Person entity) {
-        return list.add(entity);
+    public long add(Person entity) {
+        list.add(entity);
+        return list.indexOf(entity);
     }
 
     public List<Person> getAll() {

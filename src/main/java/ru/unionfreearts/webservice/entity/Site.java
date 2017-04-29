@@ -27,6 +27,10 @@ public class Site implements Serializable {
         this.name = name;
     }
 
+    public Site(String name){
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }
