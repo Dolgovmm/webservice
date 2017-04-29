@@ -24,8 +24,8 @@ import java.util.Map;
 @RequestMapping(value = "/site", produces = MediaType.APPLICATION_JSON_VALUE)//+ "; charset = UTF-8")
 public class SiteController {
 
-    //@Autowired
-    private Repository repository = new FakeRepositorySiteImpl();
+    @Autowired
+    private Repository repository;// = new FakeRepositorySiteImpl();
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody

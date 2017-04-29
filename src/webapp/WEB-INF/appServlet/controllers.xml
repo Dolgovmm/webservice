@@ -10,4 +10,6 @@
 	<!-- Определяем папку, в которой будем искать веб компоненты (контроллеры) -->
 	<context:component-scan base-package="ru.unionfreearts.webservice.controller" />
 
+	<bean id = "repository" class = "ru.unionfreearts.webservice.repository.FakeRepositorySiteImpl"></bean>
+
 </beans>
