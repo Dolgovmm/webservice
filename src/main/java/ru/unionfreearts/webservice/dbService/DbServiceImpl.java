@@ -1,13 +1,9 @@
-package ru.unionfreearts.webservice.dbservice;
+package ru.unionfreearts.webservice.dbService;
 
 import org.hibernate.*;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
-import java.lang.InstantiationException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
