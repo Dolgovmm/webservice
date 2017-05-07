@@ -10,22 +10,12 @@ import java.util.List;
 /**
  * Created by Михалыч on 30.04.2017.
  */
-//@Service
 public class DbServiceImpl<T> implements DbService<T> {
 
     private final SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
     private Class<T> tClass;
 
     public DbServiceImpl(Class<T> tClass) {
-//        Type mySuperclass = getClass().getGenericSuperclass();
-//        Type tType = ((ParameterizedType)mySuperclass).getActualTypeArguments()[0];
-//        String className = tType.toString().split(" ")[1];
-//        Class tClass = null;
-//        try {
-//            tClass = Class.forName(className);
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
         this.tClass = tClass;
     }
 
@@ -62,10 +52,9 @@ public class DbServiceImpl<T> implements DbService<T> {
         }
     }
 
-    public int remove(long id) throws HibernateException {
+    public long remove(T entity) throws HibernateException {
         Session session = sessionFactory.openSession();
         try {
-            T entity = session.get(tClass, id);
             session.remove(entity);
             session.close();
             return 1;
@@ -80,7 +69,7 @@ public class DbServiceImpl<T> implements DbService<T> {
 
     public List<T> getAll() {
         Session session = sessionFactory.openSession();
-        List<T> list = new ArrayList<T>();
+        List<T> list;
         try {
             CriteriaQuery<T> query = session.getCriteriaBuilder().createQuery(tClass);
             query.select(query.from(tClass));
@@ -97,7 +86,7 @@ public class DbServiceImpl<T> implements DbService<T> {
         }
     }
 
-    public int update(T entity) {
+    public long update(T entity) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {

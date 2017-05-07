@@ -13,7 +13,7 @@ public interface DbService<T> {
 
     public List<T> getAll();
 
-    public int remove(long id);
+    public long remove(T entity);
 
-    public int update(T entity);
+    public long update(T entity);
 }
