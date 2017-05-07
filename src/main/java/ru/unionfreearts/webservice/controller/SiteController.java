@@ -2,6 +2,7 @@ package ru.unionfreearts.webservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.util.List;
 public class SiteController {
 
     @Autowired
+    @Qualifier("siteRepository")
     private Repository repository;
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
