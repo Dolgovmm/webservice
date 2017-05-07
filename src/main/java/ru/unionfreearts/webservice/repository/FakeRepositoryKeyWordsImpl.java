@@ -24,11 +24,11 @@ public class FakeRepositoryKeyWordsImpl implements Repository<Keyword>{
         return list.get((int)id);
     }
 
-    public boolean remove(Keyword entity) {
-        return list.remove(entity);
+    public long remove(long id) {
+        return list.remove(id) == true? 1 : 0;
     }
 
-    public boolean update(Keyword entity) {
-        return true;
+    public long update(Keyword entity) {
+        return 1;
     }
 }

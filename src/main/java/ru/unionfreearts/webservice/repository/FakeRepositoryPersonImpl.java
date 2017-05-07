@@ -24,11 +24,11 @@ public class FakeRepositoryPersonImpl implements Repository<Person> {
         return list.get((int)id);
     }
 
-    public boolean remove(Person entity) {
-        return list.remove(entity);
+    public long remove(long id) {
+        return list.remove(id) == true? 1 : 0;
     }
 
-    public boolean update(Person entity) {
-        return true;
+    public long update(Person entity) {
+        return 1;
     }
 }
