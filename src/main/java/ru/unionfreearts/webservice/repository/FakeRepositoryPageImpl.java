@@ -24,8 +24,8 @@ public class FakeRepositoryPageImpl implements Repository<Page> {
         return list.get((int)id);
     }
 
-    public long remove(long id) {
-        return list.remove(id) == true? 1 : 0;
+    public long remove(Page entity) {
+        return list.remove(entity) == true? 1 : 0;
     }
 
     public long update(Page entity) {

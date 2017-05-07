@@ -13,7 +13,7 @@ public interface Repository<T> {
 
     public T get(long id);
 
-    public long remove(long id);
+    public long remove(T entity);
 
     public long update(T entity);
 }

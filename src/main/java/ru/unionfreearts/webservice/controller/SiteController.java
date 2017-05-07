@@ -60,12 +60,19 @@ public class SiteController {
         return response;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/", method = RequestMethod.DELETE)
     @ResponseBody
-    public ResponseEntity<Long> removeSite(@PathVariable long id){
+    public ResponseEntity<Long> removeSite(@RequestBody String json){
+        Site site = null;
         ResponseEntity<Long> response;
-        long removed = repository.remove(id);
-        response = new ResponseEntity<Long>(removed, HttpStatus.OK);
+        try{
+            site = new ObjectMapper().readValue(json, Site.class);
+            long removed = repository.remove(site);
+            response = new ResponseEntity<Long>(removed, HttpStatus.OK);
+        }catch (IOException ex){
+            response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
+            return response;
+        }
         return response;
     }
 

@@ -25,12 +25,12 @@ public class FakeRepositorySiteImpl implements Repository<Site> {
         return list.get(((int) id));
     }
 
-    public long remove(long id) {
-        return list.remove(id) == true? 1 : 0;
+    public long remove(Site entity) {
+        return list.remove(entity) == true? 1 : 0;
     }
 
     public long update(Site entity) {
-        list.add((int)entity.getId(), entity);
+        list.set((int)entity.getId(), entity);
         return 1;
     }
 }
