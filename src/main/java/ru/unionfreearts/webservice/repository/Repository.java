@@ -13,7 +13,7 @@ public interface Repository<T> {
 
     public T get(long id);
 
-    public boolean remove(T entity);
+    public long remove(long id);
 
-    public boolean update(T entity);
+    public long update(T entity);
 }

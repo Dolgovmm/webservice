@@ -52,33 +52,26 @@ public class SiteController {
         return response;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public ResponseEntity<Boolean> removeSite(@RequestBody String json){
-        Site site = null;
-        ResponseEntity<Boolean> response;
-        try{
-            site = new ObjectMapper().readValue(json, Site.class);
-            boolean removed = repository.remove(site);
-            response = new ResponseEntity<Boolean>(removed, HttpStatus.OK);
-        }catch (IOException ex){
-            response = new ResponseEntity<Boolean>(HttpStatus.BAD_REQUEST);
-            return response;
-        }
+    public ResponseEntity<Long> removeSite(@PathVariable long id){
+        ResponseEntity<Long> response;
+        long removed = repository.remove(id);
+        response = new ResponseEntity<Long>(removed, HttpStatus.OK);
         return response;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<Boolean> updateSite(@RequestBody String json){
+    public ResponseEntity<Long> updateSite(@RequestBody String json){
         Site site = null;
-        ResponseEntity<Boolean> response;
+        ResponseEntity<Long> response;
         try{
             site = new ObjectMapper().readValue(json, Site.class);
-            boolean updated = repository.update(site);
-            response = new ResponseEntity<Boolean>(updated, HttpStatus.OK);
+            long updated = repository.update(site);
+            response = new ResponseEntity<Long>(updated, HttpStatus.OK);
         }catch (IOException ex){
-            response = new ResponseEntity<Boolean>(HttpStatus.BAD_REQUEST);
+            response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
             return response;
         }
         return response;
