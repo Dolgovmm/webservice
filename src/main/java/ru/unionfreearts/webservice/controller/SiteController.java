@@ -29,12 +29,15 @@ public class SiteController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Long> addSite(@PathVariable String json) {
+    public ResponseEntity<Long> addSite(@RequestBody String json) {
+        System.out.println(json);
         Site site = null;
         ResponseEntity<Long> response;
         try {
             site = new ObjectMapper().readValue(json, Site.class);
+            System.out.println("site name = " + site.getName());
             site.setId(repository.add(site));
+            System.out.println("site id = " + site.getId());
             response = new ResponseEntity<Long>(site.getId(), HttpStatus.OK);
         } catch (IOException e) {
             response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
