@@ -11,6 +11,7 @@ import ru.unionfreearts.webservice.entity.Site;
 import ru.unionfreearts.webservice.repository.Repository;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Михалыч on 26.04.2017.
@@ -49,6 +50,13 @@ public class SiteController {
             response = new ResponseEntity<Site>(HttpStatus.BAD_REQUEST);
             return response;
         }
+        return response;
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<List<Site>> getAllSites(){
+        ResponseEntity<List<Site>> response = new ResponseEntity<List<Site>>(repository.getAll(), HttpStatus.OK);
         return response;
     }
 
