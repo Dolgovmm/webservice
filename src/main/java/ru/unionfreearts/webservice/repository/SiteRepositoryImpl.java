@@ -1,7 +1,7 @@
 package ru.unionfreearts.webservice.repository;
 
-import ru.unionfreearts.webservice.dbService.DbService;
-import ru.unionfreearts.webservice.dbService.DbServiceImpl;
+import ru.unionfreearts.webservice.dbservice.DbService;
+import ru.unionfreearts.webservice.dbservice.DbServiceImpl;
 import ru.unionfreearts.webservice.entity.Site;
 
 import java.util.List;
@@ -10,6 +10,9 @@ import java.util.List;
  * Created by Михалыч on 07.05.2017.
  */
 public class SiteRepositoryImpl implements Repository<Site> {
+
+//    @Autowired
+//    @Qualifier("siteDbService")
     private DbService<Site> dbService = new DbServiceImpl<Site>(Site.class);
 
     public long add(Site entity) {

@@ -1,4 +1,4 @@
-package ru.unionfreearts.webservice.dbService;
+package ru.unionfreearts.webservice.dbservice;
 
 import java.util.List;
 

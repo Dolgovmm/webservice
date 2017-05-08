@@ -1,4 +1,4 @@
-package ru.unionfreearts.webservice.dbService;
+package ru.unionfreearts.webservice.dbservice;
 
 import org.hibernate.*;
 
@@ -22,10 +22,10 @@ public class DbServiceImpl<T> implements DbService<T> {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            long id = (Long) session.save(entity);//todo: add return id of saved entity
+            session.save(entity);//todo: add return id of saved entity
             transaction.commit();
             session.close();
-            return id;
+            return 1;
         } catch (HibernateException ex) {
             throw new HibernateException(ex);
         } finally {

@@ -10,9 +10,13 @@
 	<!-- Определяем папку, в которой будем искать веб компоненты (контроллеры) -->
 	<context:component-scan base-package="ru.unionfreearts.webservice.controller" />
 
-	<bean id = "siteRepository" class = "ru.unionfreearts.webservice.repository.FakeRepositorySiteImpl"></bean>
-	<bean id = "personRepository" class = "ru.unionfreearts.webservice.repository.FakeRepositoryPersonImpl"></bean>
-	<bean id = "pageRepository" class = "ru.unionfreearts.webservice.repository.FakeRepositoryPageImpl"></bean>
-	<bean id = "keywordRepository" class = "ru.unionfreearts.webservice.repository.FakeRepositoryKeyWordsImpl"></bean>
+
+	<bean id = "siteRepository" class = "ru.unionfreearts.webservice.repository.SiteRepositoryImpl"/>
+	<!--<bean id = "siteDbService" class="ru.unionfreearts.webservice.dbservice.DbServiceImpl">-->
+		<!--<constructor-arg value="ru.unionfreearts.webservice.entity.Site.class"/>-->
+	<!--</bean>-->
+	<bean id = "personRepository" class = "ru.unionfreearts.webservice.repository.FakeRepositoryPersonImpl"/>
+	<bean id = "pageRepository" class = "ru.unionfreearts.webservice.repository.FakeRepositoryPageImpl"/>
+	<bean id = "keywordRepository" class = "ru.unionfreearts.webservice.repository.FakeRepositoryKeyWordsImpl"/>
 
 </beans>
