@@ -11,8 +11,6 @@ import java.util.List;
  */
 public class SiteRepositoryImpl implements Repository<Site> {
 
-//    @Autowired
-//    @Qualifier("siteDbService")
     private DbService<Site> dbService = new DbServiceImpl<Site>(Site.class);
 
     public long add(Site entity) {
