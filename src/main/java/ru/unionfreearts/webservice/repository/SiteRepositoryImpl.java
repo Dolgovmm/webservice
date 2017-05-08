@@ -1,5 +1,7 @@
 package ru.unionfreearts.webservice.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.unionfreearts.webservice.dbservice.DbService;
 import ru.unionfreearts.webservice.dbservice.DbServiceImpl;
 import ru.unionfreearts.webservice.entity.Site;
@@ -11,9 +13,12 @@ import java.util.List;
  */
 public class SiteRepositoryImpl implements Repository<Site> {
 
+    static final Logger logger = LoggerFactory.getLogger(SiteRepositoryImpl.class);
+
     private DbService<Site> dbService = new DbServiceImpl<Site>(Site.class);
 
     public long add(Site entity) {
+        logger.debug("SiteRepositoryImpl: add site entity: " + entity.toString());
         return dbService.add(entity);
     }
 
