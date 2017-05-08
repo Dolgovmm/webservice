@@ -53,8 +53,10 @@ public class DbServiceImpl<T> implements DbService<T> {
 
     public long remove(T entity) throws HibernateException {
         Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
         try {
             session.remove(entity);
+            transaction.commit();
             session.close();
             return 1;
         } catch (HibernateException ex) {
