@@ -11,7 +11,6 @@ import java.util.List;
  */
 public class DbServiceImpl<T> implements DbService<T> {
 
-    private final SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
     private Class<T> tClass;
 
     public DbServiceImpl(Class<T> tClass) {
@@ -19,7 +18,7 @@ public class DbServiceImpl<T> implements DbService<T> {
     }
 
     public long add(T entity) throws HibernateException {
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         try {
             session.save(entity);//todo: add return id of saved entity
@@ -30,14 +29,14 @@ public class DbServiceImpl<T> implements DbService<T> {
             throw new HibernateException(ex);
         } finally {
             transaction.rollback();
-            if (session != null || session.isOpen()) {
+            if (session != null && session.isOpen()) {
                 session.close();
             }
         }
     }
 
     public T get(long id) throws HibernateException {
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         try {
             T entity = (T) session.get(tClass, id);
             session.close();
@@ -45,14 +44,14 @@ public class DbServiceImpl<T> implements DbService<T> {
         } catch (HibernateException ex) {
             throw new HibernateException(ex);
         } finally {
-            if (session != null || session.isOpen()) {
+            if (session != null && session.isOpen()) {
                 session.close();
             }
         }
     }
 
     public long remove(T entity) throws HibernateException {
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         try {
             session.remove(entity);
@@ -62,14 +61,14 @@ public class DbServiceImpl<T> implements DbService<T> {
         } catch (HibernateException ex) {
             throw new HibernateException(ex);
         } finally {
-            if (session != null || session.isOpen()) {
+            if (session != null && session.isOpen()) {
                 session.close();
             }
         }
     }
 
     public List<T> getAll() {
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         List<T> list;
         try {
             CriteriaQuery<T> query = session.getCriteriaBuilder().createQuery(tClass);
@@ -81,14 +80,14 @@ public class DbServiceImpl<T> implements DbService<T> {
         } catch (HibernateException ex) {
             throw new HibernateException(ex);
         } finally {
-            if (session != null || session.isOpen()) {
+            if (session != null && session.isOpen()) {
                 session.close();
             }
         }
     }
 
     public long update(T entity) {
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         try {
             session.update(entity);
@@ -99,7 +98,7 @@ public class DbServiceImpl<T> implements DbService<T> {
             throw new HibernateException(ex);
         } finally {
             transaction.rollback();
-            if (session != null || session.isOpen()) {
+            if (session != null && session.isOpen()) {
                 session.close();
             }
         }
