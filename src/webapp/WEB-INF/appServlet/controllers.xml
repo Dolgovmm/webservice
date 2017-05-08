@@ -14,6 +14,6 @@
 	<bean id = "siteRepository" class = "ru.unionfreearts.webservice.repository.SiteRepositoryImpl"/>
 	<bean id = "personRepository" class = "ru.unionfreearts.webservice.repository.PersonRepositoryImpl"/>
 	<bean id = "pageRepository" class = "ru.unionfreearts.webservice.repository.PageRepositoryImpl"/>
-	<bean id = "keywordRepository" class = "ru.unionfreearts.webservice.repository.FakeRepositoryKeyWordsImpl"/>
+	<bean id = "keywordRepository" class = "ru.unionfreearts.webservice.repository.KeywordRepositoryImpl"/>
 
 </beans>
