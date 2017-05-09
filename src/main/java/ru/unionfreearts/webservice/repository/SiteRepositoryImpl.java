@@ -18,7 +18,7 @@ public class SiteRepositoryImpl implements Repository<Site> {
     private DbService<Site> dbService = new DbServiceImpl<Site>(Site.class);
 
     public long add(Site entity) {
-        logger.debug("SiteRepositoryImpl: add site entity: " + entity.toString());
+        logger.debug("add site entity: " + entity.toString());
         return dbService.add(entity);
     }
 
