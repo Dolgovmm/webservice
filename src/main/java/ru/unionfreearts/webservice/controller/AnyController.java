@@ -14,18 +14,18 @@ import java.util.List;
 public class AnyController<T> {
     static final Logger logger = LoggerFactory.getLogger(AnyController.class);
 
-    public long add(Repository repository, String json, Class tClass){
+    public long add(Repository repository, String json, Class tClass) throws IOException{
         T entity;
-        long id;
-        logger.debug("create empty Site instance");
+        logger.debug("create empty entity instance");
+        long id = -1l;
         try {
             entity = (T) new ObjectMapper().readValue(json, tClass);
-            logger.debug("get value Site instance from json");
+            logger.debug("get value entity instance from json");
             id = repository.add(entity);
-            logger.debug("add site instance to repository: " + entity.toString());
+            logger.debug("add entity instance to repository: " + entity.toString());
         } catch (IOException ex) {
             logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
-            id = -1l;
+            throw new IOException(ex);
         }
         return id;
     }

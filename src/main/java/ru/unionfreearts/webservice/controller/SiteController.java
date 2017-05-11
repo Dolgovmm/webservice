@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.unionfreearts.webservice.entity.Site;
 import ru.unionfreearts.webservice.repository.Repository;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -46,7 +47,14 @@ public class SiteController {
 //            response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
 //            logger.debug("set empty responseEntity and status BAD_REQUEST");
 //        }
-        long id = new AnyController<Site>().add(repository, json, Site.class);
+        long id;
+        try {
+            id = new AnyController<Site>().add(repository, json, Site.class);
+        } catch (IOException ex) {
+            id = -1l;
+            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
+            ex.printStackTrace();
+        }
         ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
         return response;
     }
