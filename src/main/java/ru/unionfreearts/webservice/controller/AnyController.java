@@ -1,6 +1,7 @@
 package ru.unionfreearts.webservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.unionfreearts.webservice.repository.Repository;
@@ -14,7 +15,7 @@ import java.util.List;
 public class AnyController<T> {
     static final Logger logger = LoggerFactory.getLogger(AnyController.class);
 
-    public long add(Repository repository, String json, Class tClass) throws IOException{
+    public long add(Repository repository, String json, Class tClass) throws IOException, HibernateException{
         T entity;
         logger.debug("create empty entity instance");
         long id = -1l;
@@ -26,6 +27,9 @@ public class AnyController<T> {
         } catch (IOException ex) {
             logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
             throw new IOException(ex);
+        } catch (HibernateException ex){
+            logger.error("HibernateException on add entity with messsage: " + ex.getMessage());
+            throw new HibernateException(ex);
         }
         return id;
     }

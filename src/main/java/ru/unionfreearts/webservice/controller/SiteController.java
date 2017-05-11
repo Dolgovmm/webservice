@@ -1,5 +1,6 @@
 package ru.unionfreearts.webservice.controller;
 
+import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class SiteController {
         long id;
         try {
             id = new AnyController<Site>().add(repository, json, Site.class);
-        } catch (IOException ex) {
+        } catch (IOException | HibernateException ex) {
             id = -1l;
             logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
             ex.printStackTrace();
