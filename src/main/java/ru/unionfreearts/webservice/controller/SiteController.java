@@ -46,7 +46,7 @@ public class SiteController {
 //            response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
 //            logger.debug("set empty responseEntity and status BAD_REQUEST");
 //        }
-        long id = new ControllersUtil<Site>().add(repository, json, Site.class);
+        long id = new AnyController<Site>().add(repository, json, Site.class);
         ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
         return response;
     }
@@ -68,7 +68,7 @@ public class SiteController {
 //            response = new ResponseEntity<Site>(HttpStatus.BAD_REQUEST);
 //			logger.debug("set empty responseEntity and status BAD_REQUEST");
 //        }
-        Site site = new ControllersUtil<Site>().getById(repository, id);
+        Site site = new AnyController<Site>().getById(repository, id);
         ResponseEntity<Site> response = new ResponseEntity<Site>(site, HttpStatus.OK);
         return response;
     }
@@ -78,7 +78,7 @@ public class SiteController {
     public ResponseEntity<List<Site>> getAllSites(){
 		logger.debug("get Site list method");
         ResponseEntity<List<Site>> response = new ResponseEntity<List<Site>>(
-                new ControllersUtil<Site>().getAll(repository), HttpStatus.OK);
+                new AnyController<Site>().getAll(repository), HttpStatus.OK);
 		logger.debug("set responseEntity with getted site list and status OK");
         return response;
     }
@@ -104,7 +104,7 @@ public class SiteController {
 //			logger.debug("set empty responseEntity and status BAD_REQUEST");
 //            return response;
 //        }
-        long removed = new ControllersUtil<Site>().remove(repository, json, Site.class);
+        long removed = new AnyController<Site>().remove(repository, json, Site.class);
         ResponseEntity<Long> response = new ResponseEntity<Long>(removed, HttpStatus.OK);
         return response;
     }
@@ -130,7 +130,7 @@ public class SiteController {
 //			logger.debug("set empty responseEntity and status BAD_REQUEST");
 //            return response;
 //        }
-        long updated = new ControllersUtil<Site>().update(repository, json, Site.class);
+        long updated = new AnyController<Site>().update(repository, json, Site.class);
         ResponseEntity<Long> response = new ResponseEntity<Long>(updated, HttpStatus.OK);
         return response;
     }

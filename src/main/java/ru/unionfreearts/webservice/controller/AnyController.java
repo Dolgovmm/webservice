@@ -3,8 +3,6 @@ package ru.unionfreearts.webservice.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import ru.unionfreearts.webservice.repository.Repository;
 
 import java.io.IOException;
@@ -13,8 +11,8 @@ import java.util.List;
 /**
  * Created by Михалыч on 11.05.2017.
  */
-public class ControllersUtil<T> {
-    static final Logger logger = LoggerFactory.getLogger(ControllersUtil.class);
+public class AnyController<T> {
+    static final Logger logger = LoggerFactory.getLogger(AnyController.class);
 
     public long add(Repository repository, String json, Class tClass){
         T entity;
