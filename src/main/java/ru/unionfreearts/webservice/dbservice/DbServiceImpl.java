@@ -1,6 +1,8 @@
 package ru.unionfreearts.webservice.dbservice;
 
 import org.hibernate.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
@@ -33,7 +35,7 @@ public class DbServiceImpl<T> implements DbService<T> {
 			logger.debug("ttransaction commit");
             return 1;
         } catch (HibernateException ex) {
-            logger.error("HibernateException on save entity " + entity.toString() + tClass + " with messsage: " + ex.message());
+            logger.error("HibernateException on save entity " + entity.toString() + tClass + " with messsage: " + ex.getMessage());
 			transaction.rollback();
 			logger.error("transaction rollback because HibernateException");
             throw new HibernateException(ex);
@@ -46,7 +48,7 @@ public class DbServiceImpl<T> implements DbService<T> {
     }
 
     public T get(long id) throws HibernateException {
-		logger.debug("get method dbServiceImpl with id: " + id.toString() + tClass);
+		logger.debug("get method dbServiceImpl with id: " + id + tClass);
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 		logger.debug("hibernate session received form HibernateSessionFactory");
         try {
@@ -54,7 +56,7 @@ public class DbServiceImpl<T> implements DbService<T> {
 			logger.debug("get entity " + entity.toString() + tClass);
             return entity;
         } catch (HibernateException ex) {
-            logger.error("HibernateException on get entity by id: " + id.toString() + tClass + " with messsage: " + ex.message());
+            logger.error("HibernateException on get entity by id: " + id + tClass + " with messsage: " + ex.getMessage());
 			throw new HibernateException(ex);
         } finally {
             logger.debug("if session for get entity is open then close it");
@@ -77,7 +79,7 @@ public class DbServiceImpl<T> implements DbService<T> {
 			logger.debug("ttransaction commit");
             return 1;
         } catch (HibernateException ex) {
-            logger.error("HibernateException on remove entity " + entity.toString() + tClass + " with messsage: " + ex.message());
+            logger.error("HibernateException on remove entity " + entity.toString() + tClass + " with messsage: " + ex.getMessage());
 			transaction.rollback();
 			logger.error("transaction rollback because HibernateException");
             throw new HibernateException(ex);
@@ -89,7 +91,7 @@ public class DbServiceImpl<T> implements DbService<T> {
         }
     }
 
-    public List<T> getAll() throw HibernateException {
+    public List<T> getAll() throws HibernateException {
         logger.debug("getAll method dbServiceImpl with class: " + tClass);
 		Session session = HibernateSessionFactory.getSessionFactory().openSession();
 		logger.debug("hibernate session received form HibernateSessionFactory");
@@ -105,7 +107,7 @@ public class DbServiceImpl<T> implements DbService<T> {
 			logger.debug("get list of all records from query");
             return list;
         } catch (HibernateException ex) {
-            logger.error("HibernateException on getAll " + tClass + " with messsage: " + ex.message());
+            logger.error("HibernateException on getAll " + tClass + " with messsage: " + ex.getMessage());
 			throw new HibernateException(ex);
         } finally {
             logger.debug("if session for getAll entity is open then close it");
@@ -115,7 +117,7 @@ public class DbServiceImpl<T> implements DbService<T> {
         }
     }
 
-    public long update(T entity) throw HibernateException{
+    public long update(T entity) throws HibernateException{
 		logger.debug("update method dbServiceImpl with class: " + tClass);
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 		logger.debug("hibernate session received form HibernateSessionFactory");
@@ -128,7 +130,7 @@ public class DbServiceImpl<T> implements DbService<T> {
 			logger.debug("ttransaction commit");
             return 1;
         } catch (HibernateException ex) {
-            logger.error("HibernateException on update entity " + entity.toString() + tClass + " with messsage: " + ex.message());
+            logger.error("HibernateException on update entity " + entity.toString() + tClass + " with messsage: " + ex.getMessage());
 			transaction.rollback();
 			logger.error("transaction rollback because HibernateException");
             throw new HibernateException(ex);

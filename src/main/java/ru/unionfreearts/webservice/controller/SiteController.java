@@ -1,6 +1,8 @@
 package ru.unionfreearts.webservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/site", produces = MediaType.APPLICATION_JSON_VALUE)//+ "; charset = UTF-8")
 public class SiteController {
+	static final Logger logger = LoggerFactory.getLogger(SiteController.class);
 
     @Autowired
     @Qualifier("siteRepository")
@@ -28,14 +31,22 @@ public class SiteController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Long> addSite(@RequestBody String json){
-        Site site = null;
+        logger.debug("add Site method with request json: " + json);
+		Site site = null;
+		logger.debug("create empty Site instance");
         ResponseEntity<Long> response;
+		logger.debug("create empty ResponseEntity instance");
         try {
             site = new ObjectMapper().readValue(json, Site.class);
-            site.setId(repository.add(site));
+            logger.debug("get value Site instance from json");
+			site.setId(repository.add(site));
+			logger.debug("add site instance to repository: " + site.toString());
             response = new ResponseEntity<Long>(site.getId(), HttpStatus.OK);
-        } catch (IOException e) {
-            response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
+			logger.debug("set responseEntity with added site id and status OK");
+        } catch (IOException ex) {
+            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
+			response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
+			logger.debug("set empty responseEntity and status BAD_REQUEST");
         }
         return response;
     }
@@ -43,14 +54,19 @@ public class SiteController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Site> getSiteById(@PathVariable long id){
-        Site site = null;
-        ResponseEntity<Site> response;
+        logger.debug("get Site by id method with request id: " + id);
+		Site site = null;
+        logger.debug("create empty Site instance");
+		ResponseEntity<Site> response;
+		logger.debug("create empty ResponseEntity instance");
         site = (Site)repository.get(id);
+		logger.debug("get site instance from repository: " + site.toString());
         if (site != null) {
-            response = new ResponseEntity<Site>(site, HttpStatus.OK);
+			response = new ResponseEntity<Site>(site, HttpStatus.OK);
+			logger.debug("set responseEntity with getted site and status OK");
         }else{
             response = new ResponseEntity<Site>(HttpStatus.BAD_REQUEST);
-            return response;
+			logger.debug("set empty responseEntity and status BAD_REQUEST");
         }
         return response;
     }
@@ -58,21 +74,31 @@ public class SiteController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<Site>> getAllSites(){
+		logger.debug("get Site list method");
         ResponseEntity<List<Site>> response = new ResponseEntity<List<Site>>(repository.getAll(), HttpStatus.OK);
+		logger.debug("set responseEntity with getted site list and status OK");
         return response;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<Long> removeSite(@RequestBody String json){
-        Site site = null;
-        ResponseEntity<Long> response;
+        logger.debug("remove Site method with request json " + json);
+		Site site = null;
+        logger.debug("create empty Site instance");
+		ResponseEntity<Long> response;
+		logger.debug("create empty ResponseEntity instance");
         try{
             site = new ObjectMapper().readValue(json, Site.class);
+			logger.debug("get value Site instance from json");
             long removed = repository.remove(site);
+			logger.debug("remove site from repository: " + site.toString());
             response = new ResponseEntity<Long>(removed, HttpStatus.OK);
+			logger.debug("set responseEntity with removed and status OK");
         }catch (IOException ex){
-            response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
+            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
+			response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
+			logger.debug("set empty responseEntity and status BAD_REQUEST");
             return response;
         }
         return response;
@@ -81,14 +107,22 @@ public class SiteController {
     @RequestMapping(value = "/", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<Long> updateSite(@RequestBody String json){
-        Site site = null;
+        logger.debug("update Site method with request json " + json);
+		Site site = null;
+		logger.debug("create empty Site instance");
         ResponseEntity<Long> response;
+		logger.debug("create empty ResponseEntity instance");
         try{
             site = new ObjectMapper().readValue(json, Site.class);
+			logger.debug("get value Site instance from json");
             long updated = repository.update(site);
+			logger.debug("update site on repository: " + site.toString());
             response = new ResponseEntity<Long>(updated, HttpStatus.OK);
+			logger.debug("set responseEntity with updated site and status OK");
         }catch (IOException ex){
-            response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
+            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
+			response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
+			logger.debug("set empty responseEntity and status BAD_REQUEST");
             return response;
         }
         return response;

@@ -28,7 +28,7 @@ public class SiteRepositoryImpl implements Repository<Site> {
     }
 
     public Site get(long id) {
-		logger.debug("get site entity with id: " + id.toString());
+		logger.debug("get site entity with id: " + id);
         return dbService.get(id);
     }
 

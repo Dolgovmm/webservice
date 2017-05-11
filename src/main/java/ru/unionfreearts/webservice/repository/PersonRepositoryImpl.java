@@ -1,5 +1,7 @@
 package ru.unionfreearts.webservice.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.unionfreearts.webservice.dbservice.DbService;
 import ru.unionfreearts.webservice.dbservice.DbServiceImpl;
 import ru.unionfreearts.webservice.entity.Person;
@@ -25,7 +27,7 @@ public class PersonRepositoryImpl implements Repository<Person> {
     }
 
     public Person get(long id) {
-		logger.debug("get Person entity with id: " + id.toString());
+		logger.debug("get Person entity with id: " + id);
         return dbService.get(id);
     }
 
