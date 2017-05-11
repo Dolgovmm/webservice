@@ -10,92 +10,131 @@ import java.util.List;
  * Created by Михалыч on 30.04.2017.
  */
 public class DbServiceImpl<T> implements DbService<T> {
+	static final Logger logger = LoggerFactory.getLogger(DbServiceImpl.class);
 
     private Class<T> tClass;
 
     public DbServiceImpl(Class<T> tClass) {
-        this.tClass = tClass;
+        logger.debug("constructor DbServiceImpl begin with " + tClass + " class");
+		this.tClass = tClass;
+		logger.debug("constructor DbServiceImpl end with " + tClass + " class");
     }
 
     public long add(T entity) throws HibernateException {
+		logger.debug("add method dbServiceimpl with entity: " + entity.toString() + tClass);
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
+		logger.debug("hibernate session received from HibernateSessionFactory");
         Transaction transaction = session.beginTransaction();
+		logger.debug("begin transaction");
         try {
             session.save(entity);//todo: add return id of saved entity
+			logger.debug("save entity " + entity.toString() + tClass);
             transaction.commit();
+			logger.debug("ttransaction commit");
             return 1;
         } catch (HibernateException ex) {
-            transaction.rollback();
+            logger.error("HibernateException on save entity " + entity.toString() + tClass + " with messsage: " + ex.message());
+			transaction.rollback();
+			logger.error("transaction rollback because HibernateException");
             throw new HibernateException(ex);
         } finally {
-            if (session != null && session.isOpen()) {
+            logger.debug("if session for add entity is open then close it");
+			if (session != null && session.isOpen()) {
                 session.close();
             }
         }
     }
 
     public T get(long id) throws HibernateException {
+		logger.debug("get method dbServiceImpl with id: " + id.toString() + tClass);
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
+		logger.debug("hibernate session received form HibernateSessionFactory");
         try {
             T entity = (T) session.get(tClass, id);
+			logger.debug("get entity " + entity.toString() + tClass);
             return entity;
         } catch (HibernateException ex) {
-            throw new HibernateException(ex);
+            logger.error("HibernateException on get entity by id: " + id.toString() + tClass + " with messsage: " + ex.message());
+			throw new HibernateException(ex);
         } finally {
-            if (session != null && session.isOpen()) {
+            logger.debug("if session for get entity is open then close it");
+			if (session != null && session.isOpen()) {
                 session.close();
             }
         }
     }
 
     public long remove(T entity) throws HibernateException {
+		logger.debug("remove method dbServiceImpl with entity: " + entity.toString() + tClass);
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
+		logger.debug("hibernate session received form HibernateSessionFactory");
         Transaction transaction = session.beginTransaction();
+		logger.debug("begin transaction");
         try {
             session.remove(entity);
+			logger.debug("remove entity " + entity.toString() + tClass);
             transaction.commit();
+			logger.debug("ttransaction commit");
             return 1;
         } catch (HibernateException ex) {
-            transaction.rollback();
+            logger.error("HibernateException on remove entity " + entity.toString() + tClass + " with messsage: " + ex.message());
+			transaction.rollback();
+			logger.error("transaction rollback because HibernateException");
             throw new HibernateException(ex);
         } finally {
-            if (session != null && session.isOpen()) {
+            logger.debug("if session for remove entity is open then close it");
+			if (session != null && session.isOpen()) {
                 session.close();
             }
         }
     }
 
-    public List<T> getAll() {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+    public List<T> getAll() throw HibernateException {
+        logger.debug("getAll method dbServiceImpl with class: " + tClass);
+		Session session = HibernateSessionFactory.getSessionFactory().openSession();
+		logger.debug("hibernate session received form HibernateSessionFactory");
         List<T> list;
+		logger.debug("create List of " + tClass);
         try {
             CriteriaQuery<T> query = session.getCriteriaBuilder().createQuery(tClass);
+			logger.debug("create query to get all records with table of class: " + tClass);
             query.select(query.from(tClass));
+			logger.debug("select ...");
             Query q = session.createQuery(query);
             list = q.getResultList();
+			logger.debug("get list of all records from query");
             return list;
         } catch (HibernateException ex) {
-            throw new HibernateException(ex);
+            logger.error("HibernateException on getAll " + tClass + " with messsage: " + ex.message());
+			throw new HibernateException(ex);
         } finally {
-            if (session != null && session.isOpen()) {
-                System.out.println("session close");
+            logger.debug("if session for getAll entity is open then close it");
+			if (session != null && session.isOpen()) {
                 session.close();
             }
         }
     }
 
-    public long update(T entity) {
+    public long update(T entity) throw HibernateException{
+		logger.debug("update method dbServiceImpl with class: " + tClass);
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
+		logger.debug("hibernate session received form HibernateSessionFactory");
         Transaction transaction = session.beginTransaction();
+		logger.debug("begin transaction");
         try {
             session.update(entity);
-            transaction.commit();
+            logger.debug("update entity " + entity.toString() + tClass);
+			transaction.commit();
+			logger.debug("ttransaction commit");
             return 1;
         } catch (HibernateException ex) {
-            transaction.rollback();
+            logger.error("HibernateException on update entity " + entity.toString() + tClass + " with messsage: " + ex.message());
+			transaction.rollback();
+			logger.error("transaction rollback because HibernateException");
             throw new HibernateException(ex);
         } finally {
-            if (session != null && session.isOpen()) {
+            logger.debug("if session for update entity is open then close it");
+			if (session != null && session.isOpen()) {
                 session.close();
             }
         }
