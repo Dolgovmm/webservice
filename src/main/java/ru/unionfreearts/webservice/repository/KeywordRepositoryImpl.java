@@ -10,25 +10,32 @@ import java.util.List;
  * Created by Михалыч on 08.05.2017.
  */
 public class KeywordRepositoryImpl implements Repository<Keyword> {
+	static final Logger logger = LoggerFactory.getLogger(KeywordRepositoryImpl.class);
+	
     private DbService<Keyword> dbService = new DbServiceImpl<Keyword>(Keyword.class);
 
     public long add(Keyword entity) {
-        return dbService.add(entity);
+        logger.debug("add Keyword entity: " + entity.toString());
+		return dbService.add(entity);
     }
 
     public List<Keyword> getAll() {
-        return dbService.getAll();
+        logger.debug("get all keywords from table");
+		return dbService.getAll();
     }
 
     public Keyword get(long id) {
-        return dbService.get(id);
+        logger.debug("get Keyword entity with id: " + id.toString());
+		return dbService.get(id);
     }
 
     public long remove(Keyword entity) {
-        return dbService.remove(entity);
+        logger.debug("remove Keyword entity: " + entity.toString());
+		return dbService.remove(entity);
     }
 
     public long update(Keyword entity) {
-        return dbService.update(entity);
+        logger.debug("update Keyword entity: " + entity.toString());
+		return dbService.update(entity);
     }
 }
