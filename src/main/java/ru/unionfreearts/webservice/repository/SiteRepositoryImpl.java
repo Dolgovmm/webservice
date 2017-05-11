@@ -23,18 +23,22 @@ public class SiteRepositoryImpl implements Repository<Site> {
     }
 
     public List<Site> getAll() {
+		logger.debug("get all sites from table");
         return dbService.getAll();
     }
 
     public Site get(long id) {
+		logger.debug("get site entity with id: " + id.toString());
         return dbService.get(id);
     }
 
     public long remove(Site entity) {
+		logger.debug("remove site entity: " + entity.toString());
         return dbService.remove(entity);
     }
 
     public long update(Site entity) {
+		logger.debug("update site entity: " + entity.toString());
         return dbService.update(entity);
     }
 }
