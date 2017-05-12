@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "sites")
-public class Site implements Serializable {
+public class Site extends AbstractEntity implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "id")

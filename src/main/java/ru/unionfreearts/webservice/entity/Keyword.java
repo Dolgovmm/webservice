@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "keywords")
-public class Keyword implements Serializable {
+public class Keyword extends AbstractEntity implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "id")

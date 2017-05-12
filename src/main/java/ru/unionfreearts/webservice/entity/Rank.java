@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "personpagerank")
-public class Rank implements Serializable {
+public class Rank extends AbstractEntity implements Serializable {
     @Id
     @ManyToOne(targetEntity = Person.class)
     private Person person;

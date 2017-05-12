@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "pages")
-public class Page implements Serializable {
+public class Page extends AbstractEntity implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "id")
