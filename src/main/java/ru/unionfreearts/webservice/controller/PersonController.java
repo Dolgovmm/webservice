@@ -28,63 +28,98 @@ public class PersonController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Long> addPerson(@RequestBody String json) {
-        Person person = null;
-        ResponseEntity<Long> response;
+        logger.debug("add Person method with request json: " + json);
+        long id;
         try {
-            person = new ObjectMapper().readValue(json, Person.class);
-            person.setId(repository.add(person));
-            response = new ResponseEntity<Long>(person.getId(), HttpStatus.OK);
-        } catch (IOException e) {
-            response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
-        }
-        return response;
+            id = new AnyController<Person>().add(repository, json, Person.class);
+			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			return response;
+        } catch (IOException ex) {
+            id = -1l;
+            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
+			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			return response;
+        } catch (HibernateException ex) {
+			id = -1l;
+			logger.error("HibernateException on add person to repository with messsage: " + ex.getMessage());
+			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			return response;
+		}
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Person> getPersonById(@PathVariable long id){
-        Person person = null;
-        ResponseEntity<Person> response;
-        person = (Person)repository.get(id);
-        if (person != null) {
-            response = new ResponseEntity<Person>(person, HttpStatus.OK);
-        }else{
-            response = new ResponseEntity<Person>(HttpStatus.BAD_REQUEST);
-            return response;
-        }
-        return response;
+        logger.debug("get Person by id method with request id: " + id);
+        try {
+			Person person = new AnyController<Person>().getById(repository, id);
+			ResponseEntity<Person> response = new ResponseEntity<Person>(person, HttpStatus.OK);
+			return response;
+		} catch (HibernateException ex) {
+			logger.error("HibernateException on get person by id from repository with messsage: " + ex.getMessage());
+			Person emptyEntity = new Person();
+			ResponseEntity<Person> response = new ResponseEntity<Person>(emptyEntity, HttpStatus.OK);
+			return response;
+		}
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<Person>> getPersonList(){
-        ResponseEntity<List<Person>> response = new ResponseEntity<List<Person>>(repository.getAll(), HttpStatus.OK);
-        return response;
+        logger.debug("get Person list method");
+        try {
+			ResponseEntity<List<Person>> response = new ResponseEntity<>(
+				new AnyController<Person>().getAll(repository), HttpStatus.OK);
+			logger.debug("set responseEntity with getted person list and status OK");
+			return response;
+		} catch (HibernateException ex) {
+			logger.error("HibernateException on get person list from repository with messsage: " + ex.getMessage());
+			List<Person> list = new ArrayList<>();
+			ResponseEntity<List<Person>> response = new ResponseEntity<>(list, HttpStatus.OK);
+			return response;
+		}
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/", method = RequestMethod.DELETE)
     @ResponseBody
-    public ResponseEntity<Long> removePerson(@PathVariable long id){
-        Person person = null;
-        ResponseEntity<Long> response;
-        long removed = repository.remove(id);
-        response = new ResponseEntity<Long>(removed, HttpStatus.OK);
-        return response;
+    public ResponseEntity<Long> removePerson(@RequestBody String json){
+        logger.debug("remove Person method with request json " + json);
+        try {
+			long removed = new AnyController<Person>().remove(repository, json, Person.class);
+			ResponseEntity<Long> response = new ResponseEntity<Long>(removed, HttpStatus.OK);
+			return response;
+		} catch (IOException ex) {
+            id = -1l;
+            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
+			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			return response;
+        } catch (HibernateException ex) {
+			id = -1l;
+			logger.error("HibernateException on remove Person from repository with messsage: " + ex.getMessage());
+			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			return response;
+		}
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<Long> updatePerson(@RequestBody String json){
-        Person person = null;
-        ResponseEntity<Long> response;
-        try{
-            person = new ObjectMapper().readValue(json, Person.class);
-            long updated = repository.update(person);
-            response = new ResponseEntity<Long>(updated, HttpStatus.OK);
-        }catch (IOException ex){
-            response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
-            return response;
-        }
-        return response;
+        logger.debug("update Person method with request json " + json);
+		try{
+			long updated = new AnyController<Person>().update(repository, json, Person.class);
+			ResponseEntity<Long> response = new ResponseEntity<Long>(updated, HttpStatus.OK);
+			return response;
+		} catch (IOException ex) {
+            id = -1l;
+            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
+			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			return response;
+        } catch (HibernateException ex) {
+			id = -1l;
+			logger.error("HibernateException on update Person on repository with messsage: " + ex.getMessage());
+			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			return response;
+		}
+
     }
 }
