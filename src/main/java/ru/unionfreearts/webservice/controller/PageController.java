@@ -28,62 +28,97 @@ public class PageController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Long> addPage(@RequestBody String json) {
-        Page page = null;
-        ResponseEntity<Long> response;
+        logger.debug("add Page method with request json: " + json);
+        long id;
         try {
-            page = new ObjectMapper().readValue(json, Page.class);
-            page.setId(repository.add(page));
-            response = new ResponseEntity<Long>(page.getId(), HttpStatus.OK);
-        } catch (IOException e) {
-            response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
-        }
-        return response;
+            id = new AnyController<Page>().add(repository, json, Page.class);
+			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			return response;
+        } catch (IOException ex) {
+            id = -1l;
+            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
+			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			return response;
+        } catch (HibernateException ex) {
+			id = -1l;
+			logger.error("HibernateException on add Page to repository with messsage: " + ex.getMessage());
+			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			return response;
+		}
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Page> getPageById(@PathVariable long id){
-        Page page = null;
-        ResponseEntity<Page> response;
-        page = (Page)repository.get(id);
-        if (page != null) {
-            response = new ResponseEntity<Page>(page, HttpStatus.OK);
-        }else{
-            response = new ResponseEntity<Page>(HttpStatus.BAD_REQUEST);
-            return response;
-        }
-        return response;
+        logger.debug("get Page by id method with request id: " + id);
+        try {
+			Page page = new AnyController<Page>().getById(repository, id);
+			ResponseEntity<Page> response = new ResponseEntity<>(page, HttpStatus.OK);
+			return response;
+		} catch (HibernateException ex) {
+			logger.error("HibernateException on get Page by id from repository with messsage: " + ex.getMessage());
+			Page emptyEntity = new Page();
+			ResponseEntity<Page> response = new ResponseEntity<Page>(emptyEntity, HttpStatus.OK);
+			return response;
+		}
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<Page>> getPageList(){
-        ResponseEntity<List<Page>> response = new ResponseEntity<List<Page>>(repository.getAll(), HttpStatus.OK);
-        return response;
+        logger.debug("get Page list method");
+        try {
+			ResponseEntity<List<Page>> response = new ResponseEntity<>(
+				new AnyController<Page>().getAll(repository), HttpStatus.OK);
+			logger.debug("set responseEntity with getted Page list and status OK");
+			return response;
+		} catch (HibernateException ex) {
+			logger.error("HibernateException on get Page list from repository with messsage: " + ex.getMessage());
+			List<Page> list = new ArrayList<Page>();
+			ResponseEntity<List<Page>> response = new ResponseEntity<>(list, HttpStatus.OK);
+			return response;
+		}
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/", method = RequestMethod.DELETE)
     @ResponseBody
-    public ResponseEntity<Long> removePage(@PathVariable long id){
-        ResponseEntity<Long> response;
-        long removed = repository.remove(id);
-        response = new ResponseEntity<Long>(removed, HttpStatus.OK);
-        return response;
+    public ResponseEntity<Long> removePage(@RequestBody String json){
+        logger.debug("remove Page method with request json " + json);
+        try {
+			long removed = new AnyController<Page>().remove(repository, json, Page.class);
+			ResponseEntity<Long> response = new ResponseEntity<Long>(removed, HttpStatus.OK);
+			return response;
+		} catch (IOException ex) {
+            id = -1l;
+            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
+			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			return response;
+        } catch (HibernateException ex) {
+			id = -1l;
+			logger.error("HibernateException on remove Page from repository with messsage: " + ex.getMessage());
+			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			return response;
+		}
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<Long> updatePage(@RequestBody String json){
-        Page page = null;
-        ResponseEntity<Long> response;
-        try{
-            page = new ObjectMapper().readValue(json, Page.class);
-            long updated = repository.update(page);
-            response = new ResponseEntity<Long>(updated, HttpStatus.OK);
-        }catch (IOException ex){
-            response = new ResponseEntity<Long>(HttpStatus.BAD_REQUEST);
-            return response;
-        }
-        return response;
+        logger.debug("update Page method with request json " + json);
+		try{
+			long updated = new AnyController<Page>().update(repository, json, Page.class);
+			ResponseEntity<Long> response = new ResponseEntity<Long>(updated, HttpStatus.OK);
+			return response;
+		} catch (IOException ex) {
+            id = -1l;
+            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
+			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			return response;
+        } catch (HibernateException ex) {
+			id = -1l;
+			logger.error("HibernateException on update Page on repository with messsage: " + ex.getMessage());
+			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			return response;
+		}
     }
 }
