@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.unionfreearts.webservice.entity.AbstractEntity;
 import ru.unionfreearts.webservice.repository.Repository;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * Created by Михалыч on 11.05.2017.
  */
-public class AnyController<T> {
+public class AnyController<T extends AbstractEntity> {
     static final Logger logger = LoggerFactory.getLogger(AnyController.class);
 
     public long add(Repository repository, String json, Class tClass) throws IOException, HibernateException{
