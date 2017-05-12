@@ -1,6 +1,8 @@
 package ru.unionfreearts.webservice.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.HibernateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import ru.unionfreearts.webservice.entity.Person;
 import ru.unionfreearts.webservice.repository.Repository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +23,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/person", produces = MediaType.APPLICATION_JSON_VALUE)// + "; charset = UTF-8")
 public class PersonController {
+	static final Logger logger = LoggerFactory.getLogger(PersonController.class);
 
     @Autowired
     @Qualifier("personRepository")
@@ -53,12 +57,12 @@ public class PersonController {
         logger.debug("get Person by id method with request id: " + id);
         try {
 			Person person = new AnyController<Person>().getById(repository, id);
-			ResponseEntity<Person> response = new ResponseEntity<Person>(person, HttpStatus.OK);
+			ResponseEntity<Person> response = new ResponseEntity<>(person, HttpStatus.OK);
 			return response;
 		} catch (HibernateException ex) {
 			logger.error("HibernateException on get person by id from repository with messsage: " + ex.getMessage());
 			Person emptyEntity = new Person();
-			ResponseEntity<Person> response = new ResponseEntity<Person>(emptyEntity, HttpStatus.OK);
+			ResponseEntity<Person> response = new ResponseEntity<>(emptyEntity, HttpStatus.OK);
 			return response;
 		}
     }
@@ -84,19 +88,20 @@ public class PersonController {
     @ResponseBody
     public ResponseEntity<Long> removePerson(@RequestBody String json){
         logger.debug("remove Person method with request json " + json);
+        long removed;
         try {
-			long removed = new AnyController<Person>().remove(repository, json, Person.class);
-			ResponseEntity<Long> response = new ResponseEntity<Long>(removed, HttpStatus.OK);
+			removed = new AnyController<Person>().remove(repository, json, Person.class);
+			ResponseEntity<Long> response = new ResponseEntity<>(removed, HttpStatus.OK);
 			return response;
 		} catch (IOException ex) {
-            id = -1l;
+			removed = -1l;
             logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(removed, HttpStatus.OK);
 			return response;
         } catch (HibernateException ex) {
-			id = -1l;
+			removed = -1l;
 			logger.error("HibernateException on remove Person from repository with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(removed, HttpStatus.OK);
 			return response;
 		}
     }
@@ -105,19 +110,20 @@ public class PersonController {
     @ResponseBody
     public ResponseEntity<Long> updatePerson(@RequestBody String json){
         logger.debug("update Person method with request json " + json);
-		try{
-			long updated = new AnyController<Person>().update(repository, json, Person.class);
-			ResponseEntity<Long> response = new ResponseEntity<Long>(updated, HttpStatus.OK);
+		long updated;
+        try{
+			updated = new AnyController<Person>().update(repository, json, Person.class);
+			ResponseEntity<Long> response = new ResponseEntity<>(updated, HttpStatus.OK);
 			return response;
 		} catch (IOException ex) {
-            id = -1l;
+			updated = -1l;
             logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(updated, HttpStatus.OK);
 			return response;
         } catch (HibernateException ex) {
-			id = -1l;
+			updated = -1l;
 			logger.error("HibernateException on update Person on repository with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(updated, HttpStatus.OK);
 			return response;
 		}
 

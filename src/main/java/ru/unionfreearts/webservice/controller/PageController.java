@@ -1,6 +1,9 @@
 package ru.unionfreearts.webservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.HibernateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -12,6 +15,7 @@ import ru.unionfreearts.webservice.entity.Page;
 import ru.unionfreearts.webservice.repository.Repository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +24,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)// + "; charset = UTF-8")
 public class PageController {
+	static final Logger logger = LoggerFactory.getLogger(PageController.class);
 
     @Autowired
     @Qualifier("pageRepository")
@@ -32,17 +37,17 @@ public class PageController {
         long id;
         try {
             id = new AnyController<Page>().add(repository, json, Page.class);
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(id, HttpStatus.OK);
 			return response;
         } catch (IOException ex) {
             id = -1l;
             logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(id, HttpStatus.OK);
 			return response;
         } catch (HibernateException ex) {
 			id = -1l;
 			logger.error("HibernateException on add Page to repository with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(id, HttpStatus.OK);
 			return response;
 		}
     }
@@ -58,7 +63,7 @@ public class PageController {
 		} catch (HibernateException ex) {
 			logger.error("HibernateException on get Page by id from repository with messsage: " + ex.getMessage());
 			Page emptyEntity = new Page();
-			ResponseEntity<Page> response = new ResponseEntity<Page>(emptyEntity, HttpStatus.OK);
+			ResponseEntity<Page> response = new ResponseEntity<>(emptyEntity, HttpStatus.OK);
 			return response;
 		}
     }
@@ -74,7 +79,7 @@ public class PageController {
 			return response;
 		} catch (HibernateException ex) {
 			logger.error("HibernateException on get Page list from repository with messsage: " + ex.getMessage());
-			List<Page> list = new ArrayList<Page>();
+			List<Page> list = new ArrayList<>();
 			ResponseEntity<List<Page>> response = new ResponseEntity<>(list, HttpStatus.OK);
 			return response;
 		}
@@ -84,19 +89,20 @@ public class PageController {
     @ResponseBody
     public ResponseEntity<Long> removePage(@RequestBody String json){
         logger.debug("remove Page method with request json " + json);
+        long removed;
         try {
-			long removed = new AnyController<Page>().remove(repository, json, Page.class);
-			ResponseEntity<Long> response = new ResponseEntity<Long>(removed, HttpStatus.OK);
+			removed = new AnyController<Page>().remove(repository, json, Page.class);
+			ResponseEntity<Long> response = new ResponseEntity<>(removed, HttpStatus.OK);
 			return response;
 		} catch (IOException ex) {
-            id = -1l;
+			removed = -1l;
             logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(removed, HttpStatus.OK);
 			return response;
         } catch (HibernateException ex) {
-			id = -1l;
+			removed = -1l;
 			logger.error("HibernateException on remove Page from repository with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(removed, HttpStatus.OK);
 			return response;
 		}
     }
@@ -105,19 +111,20 @@ public class PageController {
     @ResponseBody
     public ResponseEntity<Long> updatePage(@RequestBody String json){
         logger.debug("update Page method with request json " + json);
+        long updated;
 		try{
-			long updated = new AnyController<Page>().update(repository, json, Page.class);
-			ResponseEntity<Long> response = new ResponseEntity<Long>(updated, HttpStatus.OK);
+			updated = new AnyController<Page>().update(repository, json, Page.class);
+			ResponseEntity<Long> response = new ResponseEntity<>(updated, HttpStatus.OK);
 			return response;
 		} catch (IOException ex) {
-            id = -1l;
+			updated = -1l;
             logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(updated, HttpStatus.OK);
 			return response;
         } catch (HibernateException ex) {
-			id = -1l;
+			updated = -1l;
 			logger.error("HibernateException on update Page on repository with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(updated, HttpStatus.OK);
 			return response;
 		}
     }

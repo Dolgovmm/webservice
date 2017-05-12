@@ -14,6 +14,7 @@ import ru.unionfreearts.webservice.entity.Site;
 import ru.unionfreearts.webservice.repository.Repository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,17 +36,17 @@ public class SiteController {
         long id;
         try {
             id = new AnyController<Site>().add(repository, json, Site.class);
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(id, HttpStatus.OK);
 			return response;
         } catch (IOException ex) {
             id = -1l;
             logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(id, HttpStatus.OK);
 			return response;
         } catch (HibernateException ex) {
 			id = -1l;
 			logger.error("HibernateException on add site to repository with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(id, HttpStatus.OK);
 			return response;
 		}
     }
@@ -56,12 +57,12 @@ public class SiteController {
         logger.debug("get Site by id method with request id: " + id);
         try {
 			Site site = new AnyController<Site>().getById(repository, id);
-			ResponseEntity<Site> response = new ResponseEntity<Site>(site, HttpStatus.OK);
+			ResponseEntity<Site> response = new ResponseEntity<>(site, HttpStatus.OK);
 			return response;
 		} catch (HibernateException ex) {
 			logger.error("HibernateException on get site by id from repository with messsage: " + ex.getMessage());
 			Site emptyEntity = new Site();
-			ResponseEntity<Site> response = new ResponseEntity<Site>(emptyEntity, HttpStatus.OK);
+			ResponseEntity<Site> response = new ResponseEntity<>(emptyEntity, HttpStatus.OK);
 			return response;
 		}
     }
@@ -71,14 +72,14 @@ public class SiteController {
     public ResponseEntity<List<Site>> getAllSites(){
 		logger.debug("get Site list method");
         try {
-			ResponseEntity<List<Site>> response = new ResponseEntity<List<Site>>(
+			ResponseEntity<List<Site>> response = new ResponseEntity<>(
 				new AnyController<Site>().getAll(repository), HttpStatus.OK);
 			logger.debug("set responseEntity with getted site list and status OK");
 			return response;
 		} catch (HibernateException ex) {
 			logger.error("HibernateException on get site list from repository with messsage: " + ex.getMessage());
-			List<Site> list = new ArrayList<Site>();
-			ResponseEntity<List<Site>> response = new ResponseEntity<List<Site>>(list, HttpStatus.OK);
+			List<Site> list = new ArrayList<>();
+			ResponseEntity<List<Site>> response = new ResponseEntity<>(list, HttpStatus.OK);
 			return response;
 		}
     }
@@ -87,19 +88,20 @@ public class SiteController {
     @ResponseBody
     public ResponseEntity<Long> removeSite(@RequestBody String json){
         logger.debug("remove Site method with request json " + json);
+        long removed;
         try {
-			long removed = new AnyController<Site>().remove(repository, json, Site.class);
-			ResponseEntity<Long> response = new ResponseEntity<Long>(removed, HttpStatus.OK);
+			removed = new AnyController<Site>().remove(repository, json, Site.class);
+			ResponseEntity<Long> response = new ResponseEntity<>(removed, HttpStatus.OK);
 			return response;
 		} catch (IOException ex) {
-            id = -1l;
+            removed = -1l;
             logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(removed, HttpStatus.OK);
 			return response;
         } catch (HibernateException ex) {
-			id = -1l;
+            removed = -1l;
 			logger.error("HibernateException on remove site from repository with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(removed, HttpStatus.OK);
 			return response;
 		}
     }
@@ -108,19 +110,20 @@ public class SiteController {
     @ResponseBody
     public ResponseEntity<Long> updateSite(@RequestBody String json){
         logger.debug("update Site method with request json " + json);
+        long updated;
 		try{
-			long updated = new AnyController<Site>().update(repository, json, Site.class);
-			ResponseEntity<Long> response = new ResponseEntity<Long>(updated, HttpStatus.OK);
+			updated = new AnyController<Site>().update(repository, json, Site.class);
+			ResponseEntity<Long> response = new ResponseEntity<>(updated, HttpStatus.OK);
 			return response;
 		} catch (IOException ex) {
-            id = -1l;
+            updated = -1l;
             logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(updated, HttpStatus.OK);
 			return response;
         } catch (HibernateException ex) {
-			id = -1l;
+            updated = -1l;
 			logger.error("HibernateException on update site on repository with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			ResponseEntity<Long> response = new ResponseEntity<>(updated, HttpStatus.OK);
 			return response;
 		}
     }
