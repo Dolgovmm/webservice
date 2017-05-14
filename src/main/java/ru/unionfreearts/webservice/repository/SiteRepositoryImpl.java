@@ -22,6 +22,10 @@ public class SiteRepositoryImpl implements Repository<Site> {
         return dbService.add(entity);
     }
 
+    public List<Site> query() {
+        return null;
+    }
+
     public List<Site> getAll() {
 		logger.debug("get all sites from table");
         return dbService.getAll();

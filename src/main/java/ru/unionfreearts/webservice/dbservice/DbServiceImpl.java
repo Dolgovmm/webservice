@@ -101,7 +101,7 @@ public class DbServiceImpl<T> implements DbService<T> {
             CriteriaQuery<T> query = session.getCriteriaBuilder().createQuery(tClass);
 			logger.debug("create query to get all records with table of class: " + tClass);
             query.select(query.from(tClass));
-			logger.debug("select ...");
+			logger.debug("select all entity");
             Query q = session.createQuery(query);
             list = q.getResultList();
 			logger.debug("get list of all records from query");
