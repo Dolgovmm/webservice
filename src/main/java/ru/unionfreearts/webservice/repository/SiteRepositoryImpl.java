@@ -1,5 +1,6 @@
 package ru.unionfreearts.webservice.repository;
 
+import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.unionfreearts.webservice.dbservice.DbService;
@@ -18,28 +19,28 @@ public class SiteRepositoryImpl implements Repository<Site> {
 
     private DbService<Site> dbService = new DbServiceImpl<>(Site.class);
 
-    public long add(Site entity) {
+    public long add(Site entity) throws HibernateException {
         logger.debug("add site entity: " + entity.toString());
         return dbService.add(entity);
     }
 
-    public Site get(long id) {
+    public Site get(long id) throws HibernateException {
 		logger.debug("get site entity with id: " + id);
         return dbService.get(id);
     }
 
-    public long remove(Site entity) {
+    public long remove(Site entity) throws HibernateException {
 		logger.debug("remove site entity: " + entity.toString());
         return dbService.remove(entity);
     }
 
-    public long update(Site entity) {
+    public long update(Site entity) throws HibernateException {
 		logger.debug("update site entity: " + entity.toString());
         return dbService.update(entity);
     }
 
     @Override
-    public List<Site> query(Specification<Site> specification) {
+    public List<Site> query(Specification<Site> specification) throws HibernateException {
         logger.debug("get site list by query");
         return dbService.query(specification);
     }

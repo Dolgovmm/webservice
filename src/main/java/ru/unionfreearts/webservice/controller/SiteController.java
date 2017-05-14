@@ -42,12 +42,12 @@ public class SiteController {
 			return response;
         } catch (IOException ex) {
             id = -1l;
-            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
+            logger.error("IOException on read json " + json + " with message: " + ex.getMessage());
 			ResponseEntity<Long> response = new ResponseEntity<>(id, HttpStatus.OK);
 			return response;
         } catch (HibernateException ex) {
 			id = -1l;
-			logger.error("HibernateException on add site to repository with messsage: " + ex.getMessage());
+			logger.error("HibernateException on add site to repository with message: " + ex.getMessage());
 			ResponseEntity<Long> response = new ResponseEntity<>(id, HttpStatus.OK);
 			return response;
 		}

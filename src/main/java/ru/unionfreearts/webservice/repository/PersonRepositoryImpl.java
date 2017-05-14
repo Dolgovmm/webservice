@@ -1,5 +1,6 @@
 package ru.unionfreearts.webservice.repository;
 
+import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.unionfreearts.webservice.dbservice.DbService;
@@ -17,27 +18,27 @@ public class PersonRepositoryImpl implements Repository<Person> {
 	
     private DbService<Person> dbService = new DbServiceImpl<Person>(Person.class);
 
-    public long add(Person entity) {
+    public long add(Person entity) throws HibernateException {
 		logger.debug("add Person entity: " + entity.toString());
         return dbService.add(entity);
     }
 
-    public List<Person> query(Specification<Person> specification) {
+    public List<Person> query(Specification<Person> specification) throws HibernateException {
         logger.debug("get Person list by query");
         return dbService.query(specification);
     }
 
-    public Person get(long id) {
+    public Person get(long id) throws HibernateException {
 		logger.debug("get Person entity with id: " + id);
         return dbService.get(id);
     }
 
-    public long remove(Person entity) {
+    public long remove(Person entity) throws HibernateException {
 		logger.debug("remove Person entity: " + entity.toString());
         return dbService.remove(entity);
     }
 
-    public long update(Person entity) {
+    public long update(Person entity) throws HibernateException {
 		logger.debug("update Person entity: " + entity.toString());
         return dbService.update(entity);
     }

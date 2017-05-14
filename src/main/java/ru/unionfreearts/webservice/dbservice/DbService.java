@@ -14,8 +14,6 @@ public interface DbService<T> {
 
     public T get(long id);
 
-    public List<T> getAll();
-
     public long remove(T entity);
 
     public long update(T entity);

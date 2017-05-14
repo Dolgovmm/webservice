@@ -99,32 +99,6 @@ public class DbServiceImpl<T extends AbstractEntity> implements DbService<T> {
         }
     }
 
-    public List<T> getAll() throws HibernateException {
-        logger.debug("getAll method dbServiceImpl with class: " + tClass);
-		Session session = HibernateSessionFactory.getSessionFactory().openSession();
-		logger.debug("hibernate session received form HibernateSessionFactory");
-        List<T> list;
-		logger.debug("create List of " + tClass);
-        try {
-            CriteriaQuery<T> query = session.getCriteriaBuilder().createQuery(tClass);
-			logger.debug("create query to get all records with table of class: " + tClass);
-            query.select(query.from(tClass));
-			logger.debug("select all entity");
-            Query q = session.createQuery(query);
-            list = q.getResultList();
-			logger.debug("get list of all records from query");
-            return list;
-        } catch (HibernateException ex) {
-            logger.error("HibernateException on getAll " + tClass + " with messsage: " + ex.getMessage());
-			throw new HibernateException(ex);
-        } finally {
-            logger.debug("if session for getAll entity is open then close it");
-			if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-    }
-
     public long update(T entity) throws HibernateException{
 		logger.debug("update method dbServiceImpl with class: " + tClass);
         Session session = HibernateSessionFactory.getSessionFactory().openSession();

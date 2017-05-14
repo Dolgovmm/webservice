@@ -1,5 +1,6 @@
 package ru.unionfreearts.webservice.repository;
 
+import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.unionfreearts.webservice.dbservice.DbService;
@@ -17,27 +18,27 @@ public class KeywordRepositoryImpl implements Repository<Keyword> {
 	
     private DbService<Keyword> dbService = new DbServiceImpl<Keyword>(Keyword.class);
 
-    public long add(Keyword entity) {
+    public long add(Keyword entity) throws HibernateException {
         logger.debug("add Keyword entity: " + entity.toString());
 		return dbService.add(entity);
     }
 
-    public Keyword get(long id) {
+    public Keyword get(long id) throws HibernateException {
         logger.debug("get Keyword entity with id: " + id);
 		return dbService.get(id);
     }
 
-    public long remove(Keyword entity) {
+    public long remove(Keyword entity) throws HibernateException {
         logger.debug("remove Keyword entity: " + entity.toString());
 		return dbService.remove(entity);
     }
 
-    public long update(Keyword entity) {
+    public long update(Keyword entity) throws HibernateException {
         logger.debug("update Keyword entity: " + entity.toString());
 		return dbService.update(entity);
     }
 
-    public List<Keyword> query(Specification<Keyword> specification) {
+    public List<Keyword> query(Specification<Keyword> specification) throws HibernateException {
         logger.debug("get Keyword list by query");
         return dbService.query(specification);
     }
