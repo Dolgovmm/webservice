@@ -22,31 +22,26 @@ public class RankRepositoryImpl implements Repository<Rank>{
         return dbService.add(entity);
     }
 
-    @Override
     public List<Rank> getAll() {
         logger.debug("get all ranks from table");
         return dbService.getAll();
     }
 
-    @Override
     public Rank get(long id) {
         logger.debug("get rank entity with id: " + id);
         return dbService.get(id);
     }
 
-    @Override
     public long remove(Rank entity) {
         logger.debug("remove rank entity: " + entity.toString());
         return dbService.remove(entity);
     }
 
-    @Override
     public long update(Rank entity) {
         logger.debug("update rank entity: " + entity.toString());
         return dbService.update(entity);
     }
 
-    @Override
     public List<Rank> query(String request) {
         return null;
     }
