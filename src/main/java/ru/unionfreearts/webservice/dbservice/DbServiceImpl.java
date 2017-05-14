@@ -3,6 +3,7 @@ package ru.unionfreearts.webservice.dbservice;
 import org.hibernate.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.AbstractEntity;
 
 import javax.persistence.Query;
@@ -150,7 +151,7 @@ public class DbServiceImpl<T extends AbstractEntity> implements DbService<T> {
         }
     }
 
-    public List<T> query(String request) throws HibernateException{
+    public List<T> query(Specification<T> specification) throws HibernateException{
         logger.debug("query method dbServiceImpl with class: " + tClass);
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         logger.debug("hibernate session received form HibernateSessionFactory");
@@ -161,16 +162,10 @@ public class DbServiceImpl<T extends AbstractEntity> implements DbService<T> {
         Root<T> root = criteriaQuery.from(specification.getType());
 
         // get predicate from specification
-        Predicate predicate = criteriaBuilder.conjunction();//specification.toPredicate(root, criteriaBuilder);
+        Predicate predicate = specification.toPredicate(root, criteriaBuilder);
 
         // set predicate and execute query
         criteriaQuery.where(predicate);
         return session.createQuery(criteriaQuery).getResultList();
-
-
-
-        Query query = session.createQuery(request);
-        List<T> list = query.getResultList();
-        return list;
     }
 }

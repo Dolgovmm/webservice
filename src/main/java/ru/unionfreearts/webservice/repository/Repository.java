@@ -1,5 +1,6 @@
 package ru.unionfreearts.webservice.repository;
 
+import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.AbstractEntity;
 
 import java.util.List;
@@ -19,5 +20,5 @@ public interface Repository<T extends AbstractEntity> {
 
     public long update(T entity);
 
-    public List<T> query(String request);
+    public List<T> query(Specification<T> specification);
 }

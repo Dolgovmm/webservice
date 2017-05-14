@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.unionfreearts.webservice.dbservice.DbService;
 import ru.unionfreearts.webservice.dbservice.DbServiceImpl;
+import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.Rank;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class RankRepositoryImpl implements Repository<Rank>{
         return dbService.update(entity);
     }
 
-    public List<Rank> query(String request) {
-        return null;
+    public List<Rank> query(Specification<Rank> specification) {
+        return dbService.query(specification);
     }
 }
