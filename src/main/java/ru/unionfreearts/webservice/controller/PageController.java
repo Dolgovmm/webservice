@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.unionfreearts.webservice.dbservice.specification.AllPage;
 import ru.unionfreearts.webservice.entity.Page;
 import ru.unionfreearts.webservice.repository.Repository;
 
@@ -74,7 +75,7 @@ public class PageController {
         logger.debug("get Page list method");
         try {
 			ResponseEntity<List<Page>> response = new ResponseEntity<>(
-				new AnyController<Page>().getAll(repository), HttpStatus.OK);
+				new AnyController<Page>().getAll(repository, new AllPage()), HttpStatus.OK);
 			logger.debug("set responseEntity with getted Page list and status OK");
 			return response;
 		} catch (HibernateException ex) {

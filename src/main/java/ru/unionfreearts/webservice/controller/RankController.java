@@ -47,7 +47,7 @@ public class RankController {
             JSONObject dailyRank = new JSONObject();
             for (Rank rank : ranks) {
                 if (rank.getPage().getFoundDateTime().equals(nextDate) && !dailyRank.isEmpty()) {
-                    dailyRank.replace("rank", (Integer) dailyRank.get("rank") + rank.getRank());
+                    dailyRank.put("rank", (Integer) dailyRank.get("rank") + rank.getRank());
                 } else if (dailyRank.isEmpty() && rank.getPage().getFoundDateTime().equals(nextDate)){
                     dailyRank.put("date", rank.getPage().getFoundDateTime().getTime());
                     dailyRank.put("rank", rank.getRank());

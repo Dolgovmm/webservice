@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.unionfreearts.webservice.dbservice.specification.AllKeywords;
 import ru.unionfreearts.webservice.entity.Keyword;
 import ru.unionfreearts.webservice.repository.Repository;
 
@@ -74,7 +75,7 @@ public class KeywordController {
         logger.debug("get Keyword list method");
         try {
 			ResponseEntity<List<Keyword>> response = new ResponseEntity<>(
-				new AnyController<Keyword>().getAll(repository), HttpStatus.OK);
+				new AnyController<Keyword>().getAll(repository, new AllKeywords()), HttpStatus.OK);
 			logger.debug("set responseEntity with getted Keyword list and status OK");
 			return response;
 		} catch (HibernateException ex) {
