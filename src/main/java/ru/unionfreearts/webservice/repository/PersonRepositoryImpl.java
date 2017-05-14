@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.unionfreearts.webservice.dbservice.DbService;
 import ru.unionfreearts.webservice.dbservice.DbServiceImpl;
+import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.Person;
 
 import java.util.List;
@@ -21,9 +22,9 @@ public class PersonRepositoryImpl implements Repository<Person> {
         return dbService.add(entity);
     }
 
-    public List<Person> getAll() {
-		logger.debug("get all persons from table");
-        return dbService.getAll();
+    public List<Person> query(Specification<Person> specification) {
+        logger.debug("get Person list by query");
+        return dbService.query(specification);
     }
 
     public Person get(long id) {

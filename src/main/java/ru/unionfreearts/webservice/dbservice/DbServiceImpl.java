@@ -156,16 +156,15 @@ public class DbServiceImpl<T extends AbstractEntity> implements DbService<T> {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         logger.debug("hibernate session received form HibernateSessionFactory");
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-
-        // use specification.getType() to create a Root<T> instance
+        logger.debug("create criteriaBuilder from session");
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(specification.getType());
+        logger.debug("create criteria from criteriaBuilder");
         Root<T> root = criteriaQuery.from(specification.getType());
-
-        // get predicate from specification
+        logger.debug("create root from criteria");
         Predicate predicate = specification.toPredicate(root, criteriaBuilder);
-
-        // set predicate and execute query
+        logger.debug("create predicate from criteria");
         criteriaQuery.where(predicate);
+        logger.debug("set predicate and get result list");
         return session.createQuery(criteriaQuery).getResultList();
     }
 }

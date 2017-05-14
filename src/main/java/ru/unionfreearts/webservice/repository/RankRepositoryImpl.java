@@ -23,11 +23,6 @@ public class RankRepositoryImpl implements Repository<Rank>{
         return dbService.add(entity);
     }
 
-    public List<Rank> getAll() {
-        logger.debug("get all ranks from table");
-        return dbService.getAll();
-    }
-
     public Rank get(long id) {
         logger.debug("get rank entity with id: " + id);
         return dbService.get(id);

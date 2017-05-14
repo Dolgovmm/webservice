@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.unionfreearts.webservice.dbservice.DbService;
 import ru.unionfreearts.webservice.dbservice.DbServiceImpl;
+import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.Keyword;
 
 import java.util.List;
@@ -21,11 +22,6 @@ public class KeywordRepositoryImpl implements Repository<Keyword> {
 		return dbService.add(entity);
     }
 
-    public List<Keyword> getAll() {
-        logger.debug("get all keywords from table");
-		return dbService.getAll();
-    }
-
     public Keyword get(long id) {
         logger.debug("get Keyword entity with id: " + id);
 		return dbService.get(id);
@@ -39,5 +35,10 @@ public class KeywordRepositoryImpl implements Repository<Keyword> {
     public long update(Keyword entity) {
         logger.debug("update Keyword entity: " + entity.toString());
 		return dbService.update(entity);
+    }
+
+    public List<Keyword> query(Specification<Keyword> specification) {
+        logger.debug("get Keyword list by query");
+        return dbService.query(specification);
     }
 }

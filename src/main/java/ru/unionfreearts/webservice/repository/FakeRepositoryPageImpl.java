@@ -1,5 +1,6 @@
 package ru.unionfreearts.webservice.repository;
 
+import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.Page;
 
 import java.util.ArrayList;
@@ -30,5 +31,10 @@ public class FakeRepositoryPageImpl implements Repository<Page> {
 
     public long update(Page entity) {
         return 1;
+    }
+
+    @Override
+    public List<Page> query(Specification<Page> specification) {
+        return null;
     }
 }

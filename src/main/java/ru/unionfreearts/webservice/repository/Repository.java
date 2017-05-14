@@ -12,8 +12,6 @@ public interface Repository<T extends AbstractEntity> {
 
     public long add(T entity);
 
-    public List<T> getAll();
-
     public T get(long id);
 
     public long remove(T entity);

@@ -1,5 +1,6 @@
 package ru.unionfreearts.webservice.repository;
 
+import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.Keyword;
 
 import java.util.ArrayList;
@@ -30,5 +31,9 @@ public class FakeRepositoryKeyWordsImpl implements Repository<Keyword>{
 
     public long update(Keyword entity) {
         return 1;
+    }
+
+    public List<Keyword> query(Specification<Keyword> specification) {
+        return null;
     }
 }

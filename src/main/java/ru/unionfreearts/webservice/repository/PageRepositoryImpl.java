@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.unionfreearts.webservice.dbservice.DbService;
 import ru.unionfreearts.webservice.dbservice.DbServiceImpl;
+import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.Page;
 
 import java.util.List;
@@ -21,11 +22,6 @@ public class PageRepositoryImpl implements Repository<Page> {
 		return dbService.add(entity);
     }
 
-    public List<Page> getAll() {
-		logger.debug("get all pages from table");
-        return dbService.getAll();
-    }
-
     public Page get(long id) {
         logger.debug("get Page entity with id: " + id);
 		return dbService.get(id);
@@ -39,5 +35,11 @@ public class PageRepositoryImpl implements Repository<Page> {
     public long update(Page entity) {
         logger.debug("update Page entity: " + entity.toString());
 		return dbService.update(entity);
+    }
+
+    @Override
+    public List<Page> query(Specification<Page> specification) {
+        logger.debug("get Page list by query");
+        return dbService.query(specification);
     }
 }

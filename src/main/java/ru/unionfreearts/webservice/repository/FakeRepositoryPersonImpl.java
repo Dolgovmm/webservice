@@ -1,5 +1,6 @@
 package ru.unionfreearts.webservice.repository;
 
+import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.Person;
 
 import java.util.ArrayList;
@@ -30,5 +31,10 @@ public class FakeRepositoryPersonImpl implements Repository<Person> {
 
     public long update(Person entity) {
         return 1;
+    }
+
+    @Override
+    public List<Person> query(Specification<Person> specification) {
+        return null;
     }
 }

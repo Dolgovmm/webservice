@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.unionfreearts.webservice.dbservice.DbService;
 import ru.unionfreearts.webservice.dbservice.DbServiceImpl;
+import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.Site;
 
 import java.util.List;
@@ -22,15 +23,6 @@ public class SiteRepositoryImpl implements Repository<Site> {
         return dbService.add(entity);
     }
 
-    public List<Site> query() {
-        return null;
-    }
-
-    public List<Site> getAll() {
-		logger.debug("get all sites from table");
-        return dbService.getAll();
-    }
-
     public Site get(long id) {
 		logger.debug("get site entity with id: " + id);
         return dbService.get(id);
@@ -44,5 +36,11 @@ public class SiteRepositoryImpl implements Repository<Site> {
     public long update(Site entity) {
 		logger.debug("update site entity: " + entity.toString());
         return dbService.update(entity);
+    }
+
+    @Override
+    public List<Site> query(Specification<Site> specification) {
+        logger.debug("get site list by query");
+        return dbService.query(specification);
     }
 }

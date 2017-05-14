@@ -1,5 +1,6 @@
 package ru.unionfreearts.webservice.repository;
 
+import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.Site;
 
 import java.util.ArrayList;
@@ -27,6 +28,11 @@ public class FakeRepositorySiteImpl implements Repository<Site> {
 
     public long remove(Site entity) {
         return list.remove(entity) == true? 1 : 0;
+    }
+
+    @Override
+    public List<Site> query(Specification<Site> specification) {
+        return null;
     }
 
     public long update(Site entity) {
