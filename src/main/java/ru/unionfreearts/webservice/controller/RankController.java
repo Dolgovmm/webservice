@@ -36,19 +36,23 @@ public class RankController {
                                                               @RequestParam(value = "siteId") Long siteId,
                                                               @RequestParam(value = "startDate") Long startDate,
                                                               @RequestParam(value = "finishDate") Long finishDate){
+        logger.debug("get daily statistic method");
         try {
             Date nextDate = new Date(startDate);
             Date endDate = new Date(finishDate);
+            logger.debug("set next date and end date variable");
             List<Rank> ranks = repository.query(new AllRanksByPersonAndTime(personId, siteId, nextDate, endDate));
+            logger.debug("get ranks list from query");
             if (ranks != null) {
                 ResponseEntity<List<JSONObject>> response = new ResponseEntity<>(
                         getDailyRanks(ranks, nextDate, endDate), HttpStatus.OK);
+                logger.debug("create response list of json objects");
                 return response;
             }
             ResponseEntity<List<JSONObject>> response = new ResponseEntity<>(HttpStatus.OK);
             return response;
         }catch (HibernateException ex){
-            logger.error("HibernateException on add site to repository with message: " + ex.getMessage());
+            logger.error("HibernateException on get list of ranks from repository with message: " + ex.getMessage());
             ResponseEntity<List<JSONObject>> response = new ResponseEntity<>(HttpStatus.OK);
             return response;
         }
@@ -57,10 +61,20 @@ public class RankController {
     @RequestMapping(value = "/total/{siteId}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<JSONObject>> getTotalStatistic(@PathVariable Long siteId) {
-        List<Rank> ranks = repository.query(new AllRanksBySite(siteId));
-        if (ranks != null) {
-            Map<Long, Rank> rankMap = getRankMap(ranks);
-            ResponseEntity<List<JSONObject>> response = new ResponseEntity<>(getJSONObjectList(rankMap), HttpStatus.OK);
+        logger.debug("get total statistic by site method");
+        try {
+            List<Rank> ranks = repository.query(new AllRanksBySite(siteId));
+            logger.debug("get ranks list from query");
+            if (ranks != null) {
+                Map<Long, Rank> rankMap = getRankMap(ranks);
+                logger.debug("create rank map from ranks");
+                ResponseEntity<List<JSONObject>> response = new ResponseEntity<>(getJSONObjectList(rankMap), HttpStatus.OK);
+                logger.debug("create response list of json objects");
+                return response;
+            }
+        } catch (HibernateException ex) {
+            logger.error("HibernateException on get total statistic repository with message: " + ex.getMessage());
+            ResponseEntity<List<JSONObject>> response = new ResponseEntity<>(HttpStatus.OK);
             return response;
         }
         ResponseEntity<List<JSONObject>> response = new ResponseEntity<>(HttpStatus.OK);
@@ -69,18 +83,23 @@ public class RankController {
 
     private List<JSONObject> getDailyRanks(List<Rank> ranks, Date nextDate, Date endDate){
         List<JSONObject> jsonObjects = new ArrayList<>();
+        logger.debug("create list of json objects");
         do {
             JSONObject dailyRank = new JSONObject();
             for (Rank rank : ranks) {
                 if (rank.getPage().getFoundDateTime().equals(nextDate) && !dailyRank.isEmpty()) {
                     dailyRank.replace("rank", (Integer) dailyRank.get("rank") + rank.getRank());
+                    logger.debug("if rank not empty then add daily rank");
                 } else if (dailyRank.isEmpty() && rank.getPage().getFoundDateTime().equals(nextDate)) {
                     dailyRank.put("date", rank.getPage().getFoundDateTime().getTime());
                     dailyRank.put("rank", rank.getRank());
+                    logger.debug("if rank is empty then put daily rank");
                 }
             }
-            if (!dailyRank.isEmpty())
+            if (!dailyRank.isEmpty()) {
                 jsonObjects.add(dailyRank);
+                logger.debug("if daily rank not empty then add daily rank to json object list");
+            }
             nextDate.setTime(nextDate.getTime() + (1000 * 60 * 60 * 24));
         }
         while (nextDate.before(endDate));
@@ -89,12 +108,16 @@ public class RankController {
 
     private Map<Long, Rank> getRankMap(List<Rank> ranks){
         Map<Long, Rank> rankMap = new HashMap<>();
+        logger.debug("create rank map");
         for (Rank rank : ranks) {
             Long personId = rank.getPerson().getId();
+            logger.debug("get person id");
             if (rankMap.containsKey(personId)) {
                 rankMap.get(personId).setRank(rankMap.get(personId).getRank()+rank.getRank());
+                logger.debug("if rank map contains person id then add rank to rank map");
             } else {
                 rankMap.put(rank.getPerson().getId(), rank);
+                logger.debug("if rank map not contain person id then put rank to rank map");
             }
         }
         return rankMap;
@@ -102,11 +125,15 @@ public class RankController {
 
     private List<JSONObject> getJSONObjectList(Map<Long, Rank> rankMap){
         List<JSONObject> jsonObjects = new ArrayList<>();
+        logger.debug("create list of json objects");
         for (Rank rank : rankMap.values()) {
             JSONObject totalRank = new JSONObject();
+            logger.debug("create json object total rank");
             totalRank.put("name", rank.getPerson().getName());
             totalRank.put("rank", rank.getRank());
+            logger.debug("put total rank object to rank map");
             jsonObjects.add(totalRank);
+            logger.debug("add total rank to rank list");
         }
         return jsonObjects;
     }

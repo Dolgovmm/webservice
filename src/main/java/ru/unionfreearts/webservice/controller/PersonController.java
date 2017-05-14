@@ -63,6 +63,7 @@ public class PersonController {
 		} catch (HibernateException ex) {
 			logger.error("HibernateException on get person by id from repository with messsage: " + ex.getMessage());
 			Person emptyEntity = new Person();
+
 			ResponseEntity<Person> response = new ResponseEntity<>(emptyEntity, HttpStatus.OK);
 			return response;
 		}
