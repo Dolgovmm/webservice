@@ -47,7 +47,7 @@ public class RankRepositoryImpl implements Repository<Rank>{
     }
 
     @Override
-    public List<Rank> query() {
+    public List<Rank> query(String request) {
         return null;
     }
 }

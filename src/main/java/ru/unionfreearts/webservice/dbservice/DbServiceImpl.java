@@ -23,7 +23,7 @@ public class DbServiceImpl<T> implements DbService<T> {
     }
 
     public long add(T entity) throws HibernateException {
-		logger.debug("add method dbServiceimpl with entity: " + entity.toString() + tClass);
+		logger.debug("add method dbServiceImpl with entity: " + entity.toString() + " " + tClass);
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 		logger.debug("hibernate session received from HibernateSessionFactory");
         Transaction transaction = session.beginTransaction();
@@ -32,10 +32,11 @@ public class DbServiceImpl<T> implements DbService<T> {
             session.save(entity);//todo: add return id of saved entity
 			logger.debug("save entity " + entity.toString() + tClass);
             transaction.commit();
-			logger.debug("ttransaction commit");
+			logger.debug("transaction commit");
             return 1;
         } catch (HibernateException ex) {
-            logger.error("HibernateException on save entity " + entity.toString() + tClass + " with messsage: " + ex.getMessage());
+            logger.error("HibernateException on save entity " + entity.toString() + tClass
+                    + " with message: " + ex.getMessage());
 			transaction.rollback();
 			logger.error("transaction rollback because HibernateException");
             throw new HibernateException(ex);
@@ -52,11 +53,12 @@ public class DbServiceImpl<T> implements DbService<T> {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 		logger.debug("hibernate session received form HibernateSessionFactory");
         try {
-            T entity = (T) session.get(tClass, id);
+            T entity = session.get(tClass, id);
 			logger.debug("get entity " + entity.toString() + tClass);
             return entity;
         } catch (HibernateException ex) {
-            logger.error("HibernateException on get entity by id: " + id + tClass + " with messsage: " + ex.getMessage());
+            logger.error("HibernateException on get entity by id: " + id + tClass
+                    + " with message: " + ex.getMessage());
 			throw new HibernateException(ex);
         } finally {
             logger.debug("if session for get entity is open then close it");
@@ -76,10 +78,11 @@ public class DbServiceImpl<T> implements DbService<T> {
             session.remove(entity);
 			logger.debug("remove entity " + entity.toString() + tClass);
             transaction.commit();
-			logger.debug("ttransaction commit");
+			logger.debug("transaction commit");
             return 1;
         } catch (HibernateException ex) {
-            logger.error("HibernateException on remove entity " + entity.toString() + tClass + " with messsage: " + ex.getMessage());
+            logger.error("HibernateException on remove entity " + entity.toString() + tClass + " with message: "
+                    + ex.getMessage());
 			transaction.rollback();
 			logger.error("transaction rollback because HibernateException");
             throw new HibernateException(ex);
@@ -127,10 +130,11 @@ public class DbServiceImpl<T> implements DbService<T> {
             session.update(entity);
             logger.debug("update entity " + entity.toString() + tClass);
 			transaction.commit();
-			logger.debug("ttransaction commit");
+			logger.debug("transaction commit");
             return 1;
         } catch (HibernateException ex) {
-            logger.error("HibernateException on update entity " + entity.toString() + tClass + " with messsage: " + ex.getMessage());
+            logger.error("HibernateException on update entity " + entity.toString() + tClass + " with messsage: "
+                    + ex.getMessage());
 			transaction.rollback();
 			logger.error("transaction rollback because HibernateException");
             throw new HibernateException(ex);
@@ -140,5 +144,14 @@ public class DbServiceImpl<T> implements DbService<T> {
                 session.close();
             }
         }
+    }
+
+    public List<T> query(String request) throws HibernateException{
+        logger.debug("query method dbServiceImpl with class: " + tClass);
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        logger.debug("hibernate session received form HibernateSessionFactory");
+        Query query = session.createQuery(request);
+        List<T> list = query.getResultList();
+        return list;
     }
 }

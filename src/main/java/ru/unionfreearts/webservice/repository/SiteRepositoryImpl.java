@@ -15,7 +15,7 @@ public class SiteRepositoryImpl implements Repository<Site> {
 
     static final Logger logger = LoggerFactory.getLogger(SiteRepositoryImpl.class);
 
-    private DbService<Site> dbService = new DbServiceImpl<Site>(Site.class);
+    private DbService<Site> dbService = new DbServiceImpl<>(Site.class);
 
     public long add(Site entity) {
         logger.debug("add site entity: " + entity.toString());

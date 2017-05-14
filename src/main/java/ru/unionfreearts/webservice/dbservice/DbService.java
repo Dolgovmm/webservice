@@ -19,5 +19,5 @@ public interface DbService<T extends AbstractEntity> {
 
     public long update(T entity);
 
-    public List<T> query();
+    public List<T> query(String request);
 }
