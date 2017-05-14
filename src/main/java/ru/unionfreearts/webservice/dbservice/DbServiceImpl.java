@@ -3,6 +3,7 @@ package ru.unionfreearts.webservice.dbservice;
 import org.hibernate.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.unionfreearts.webservice.entity.AbstractEntity;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * Created by Михалыч on 30.04.2017.
  */
-public class DbServiceImpl<T> implements DbService<T> {
+public class DbServiceImpl<T extends AbstractEntity> implements DbService<T> {
 	static final Logger logger = LoggerFactory.getLogger(DbServiceImpl.class);
 
     private Class<T> tClass;

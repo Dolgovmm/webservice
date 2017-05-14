@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Михалыч on 30.04.2017.
  */
-public interface DbService<T extends AbstractEntity> {
+public interface DbService<T> {
 
     public long add(T entity);
 
