@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.AbstractEntity;
 import ru.unionfreearts.webservice.repository.Repository;
 
@@ -35,8 +36,8 @@ public class AnyController<T extends AbstractEntity> {
         return entity;
     }
 
-    public List<T> getAll(Repository repository) throws HibernateException{
-        List<T> list = repository.getAll();
+    public List<T> getAll(Repository repository, Specification<T> specification) throws HibernateException{
+        List<T> list = repository.query(specification);
         return list;
     }
 

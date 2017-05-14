@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.unionfreearts.webservice.dbservice.specification.AllSites;
+import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.Site;
 import ru.unionfreearts.webservice.repository.Repository;
 
@@ -73,7 +75,7 @@ public class SiteController {
 		logger.debug("get Site list method");
         try {
 			ResponseEntity<List<Site>> response = new ResponseEntity<>(
-				new AnyController<Site>().getAll(repository), HttpStatus.OK);
+				new AnyController<Site>().getAll(repository, new AllSites()), HttpStatus.OK);
 			logger.debug("set responseEntity with getted site list and status OK");
 			return response;
 		} catch (HibernateException ex) {

@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.unionfreearts.webservice.dbservice.specification.AllPerson;
 import ru.unionfreearts.webservice.entity.Person;
 import ru.unionfreearts.webservice.repository.Repository;
 
@@ -73,7 +74,7 @@ public class PersonController {
         logger.debug("get Person list method");
         try {
 			ResponseEntity<List<Person>> response = new ResponseEntity<>(
-				new AnyController<Person>().getAll(repository), HttpStatus.OK);
+				new AnyController<Person>().getAll(repository, new AllPerson()), HttpStatus.OK);
 			logger.debug("set responseEntity with getted person list and status OK");
 			return response;
 		} catch (HibernateException ex) {

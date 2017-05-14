@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ru.unionfreearts.webservice.dbservice.specification.AllRanksByPersonAndTime;
 import ru.unionfreearts.webservice.entity.Rank;
 import ru.unionfreearts.webservice.repository.Repository;
 
