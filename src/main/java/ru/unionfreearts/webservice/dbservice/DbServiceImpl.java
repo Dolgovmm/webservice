@@ -5,7 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
@@ -150,6 +153,21 @@ public class DbServiceImpl<T> implements DbService<T> {
         logger.debug("query method dbServiceImpl with class: " + tClass);
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         logger.debug("hibernate session received form HibernateSessionFactory");
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+
+        // use specification.getType() to create a Root<T> instance
+        CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(specification.getType());
+        Root<T> root = criteriaQuery.from(specification.getType());
+
+        // get predicate from specification
+        Predicate predicate = criteriaBuilder.conjunction();//specification.toPredicate(root, criteriaBuilder);
+
+        // set predicate and execute query
+        criteriaQuery.where(predicate);
+        return session.createQuery(criteriaQuery).getResultList();
+
+
+
         Query query = session.createQuery(request);
         List<T> list = query.getResultList();
         return list;
