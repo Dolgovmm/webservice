@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by Михалыч on 11.05.2017.
+ * AnyController implement CRUD methods to work with any entity.
+ * @author M.Dolgov
+ * @date 11.05.2017
  */
 public class AnyController<T extends AbstractEntity> {
     static final Logger logger = LoggerFactory.getLogger(AnyController.class);

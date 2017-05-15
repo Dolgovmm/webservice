@@ -6,7 +6,9 @@ import ru.unionfreearts.webservice.entity.AbstractEntity;
 import java.util.List;
 
 /**
- * Created by Михалыч on 26.04.2017.
+ * Repository interface implement CRUD methods to work with any entity.
+ * @author M.Dolgov
+ * @date 26.04.2017
  */
 public interface Repository<T extends AbstractEntity> {
 

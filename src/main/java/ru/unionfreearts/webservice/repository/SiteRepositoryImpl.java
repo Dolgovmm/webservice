@@ -11,7 +11,9 @@ import ru.unionfreearts.webservice.entity.Site;
 import java.util.List;
 
 /**
- * Created by Михалыч on 07.05.2017.
+ * SiteRepository implement CRUD methods from interface to work with site entity.
+ * @author M.Dolgov
+ * @date 07.05.2017
  */
 public class SiteRepositoryImpl implements Repository<Site> {
 

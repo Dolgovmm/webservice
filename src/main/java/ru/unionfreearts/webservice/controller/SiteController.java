@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Михалыч on 26.04.2017.
+ * SiteController working with RESTFull requests. He execute CRUD methods with site entity.
+ * @author M.Dolgov
+ * @date 26.04.2017
  */
 @Controller
 @RequestMapping(value = "/site", produces = MediaType.APPLICATION_JSON_VALUE)//+ "; charset = UTF-8")

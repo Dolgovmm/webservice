@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Михалыч on 30.04.2017.
+ * PersonController working with RESTFull requests. He execute CRUD methods with person entity.
+ * @author M.Dolgov
+ * @date 03.04.2017
  */
 @Controller
 @RequestMapping(value = "/person", produces = MediaType.APPLICATION_JSON_VALUE)// + "; charset = UTF-8")

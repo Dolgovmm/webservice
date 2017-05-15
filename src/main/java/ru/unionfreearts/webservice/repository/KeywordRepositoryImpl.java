@@ -11,7 +11,9 @@ import ru.unionfreearts.webservice.entity.Keyword;
 import java.util.List;
 
 /**
- * Created by Михалыч on 08.05.2017.
+ * KeywordRepository implement CRUD methods from interface to work with keyword entity.
+ * @author M.Dolgov
+ * @date 08.05.2017
  */
 public class KeywordRepositoryImpl implements Repository<Keyword> {
 	static final Logger logger = LoggerFactory.getLogger(KeywordRepositoryImpl.class);

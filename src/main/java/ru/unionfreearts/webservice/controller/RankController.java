@@ -19,7 +19,9 @@ import ru.unionfreearts.webservice.repository.Repository;
 import java.util.*;
 
 /**
- * Created by Михалыч on 13.05.2017.
+ * RankController working with RESTFull requests. He return daily and total statistics.
+ * @author M.Dolgov
+ * @date 13.05.2017
  */
 @Controller
 @RequestMapping(value = "/stat", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -6,7 +6,9 @@ import ru.unionfreearts.webservice.entity.AbstractEntity;
 import java.util.List;
 
 /**
- * Created by Михалыч on 30.04.2017.
+ * DbService implement CRUD methods to work with database.
+ * @author M.Dolgov
+ * @date 30.04.2017
  */
 public interface DbService<T> {
 

@@ -11,7 +11,9 @@ import ru.unionfreearts.webservice.entity.Rank;
 import java.util.List;
 
 /**
- * Created by Михалыч on 14.05.2017.
+ * RankRepository implement CRUD methods from interface to work with rank entity.
+ * @author M.Dolgov
+ * @date 07.05.2017
  */
 public class RankRepositoryImpl implements Repository<Rank>{
 

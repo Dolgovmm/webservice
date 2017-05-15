@@ -11,7 +11,9 @@ import ru.unionfreearts.webservice.entity.Page;
 import java.util.List;
 
 /**
- * Created by Михалыч on 08.05.2017.
+ * PageRepository implement CRUD methods from interface to work with page entity.
+ * @author M.Dolgov
+ * @date 08.05.2017
  */
 public class PageRepositoryImpl implements Repository<Page> {
 	static final Logger logger = LoggerFactory.getLogger(PageRepositoryImpl.class);

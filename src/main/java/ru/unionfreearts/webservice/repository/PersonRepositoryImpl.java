@@ -11,7 +11,9 @@ import ru.unionfreearts.webservice.entity.Person;
 import java.util.List;
 
 /**
- * Created by Михалыч on 08.05.2017.
+ * PersonRepository implement CRUD methods from interface to work with person entity.
+ * @author M.Dolgov
+ * @date 08.05.2017
  */
 public class PersonRepositoryImpl implements Repository<Person> {
 	static final Logger logger = LoggerFactory.getLogger(PersonRepositoryImpl.class);
