@@ -27,7 +27,7 @@ public class FakeRepositorySiteImpl implements Repository<Site> {
     }
 
     public long remove(Site entity) {
-        return list.remove(entity) == true? 1 : 0;
+        return list.remove(entity)? 1 : 0;
     }
 
     @Override

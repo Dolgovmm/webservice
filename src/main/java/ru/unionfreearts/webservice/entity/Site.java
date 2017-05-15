@@ -54,4 +54,13 @@ public class Site extends AbstractEntity implements Serializable {
     public void setPages(Set<Page> pages) {
         this.pages = pages;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Site otherSite = (Site) obj;
+        if ((this.id == otherSite.id) && (this.name.equals(otherSite.name))){
+            return true;
+        }
+        return false;
+    }
 }
