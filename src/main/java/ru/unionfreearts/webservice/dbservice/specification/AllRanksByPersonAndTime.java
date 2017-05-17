@@ -9,9 +9,11 @@ import javax.persistence.criteria.Root;
 import java.util.Date;
 
 /**
- * Created by Михалыч on 14.05.2017.
+ * Class to get all ranks by person id for a fixed period of time from table DB.
+ * @author M.Dolgov
+ * @date 14.05.2017
  */
-public class AllRanksByPersonAndTime extends AbstractSpacification<Rank> {
+public class AllRanksByPersonAndTime extends AbstractSpecification<Rank> {
     private Long personId;
     private Long siteId;
     private Date startDate;

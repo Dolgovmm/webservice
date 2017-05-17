@@ -7,9 +7,11 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
- * Created by Михалыч on 14.05.2017.
+ * Class to get all keyword from table DB.
+ * @author M.Dolgov
+ * @date 14.05.2017
  */
-public class AllKeywords extends AbstractSpacification<Keyword> {
+public class AllKeywords extends AbstractSpecification<Keyword> {
 
     public Predicate toPredicate(Root<Keyword> root, CriteriaBuilder cb) {
         return cb.conjunction();

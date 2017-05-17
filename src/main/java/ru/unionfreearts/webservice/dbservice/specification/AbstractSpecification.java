@@ -6,9 +6,11 @@ import javax.persistence.criteria.Root;
 import java.lang.reflect.ParameterizedType;
 
 /**
- * Created by Михалыч on 14.05.2017.
+ * Class implement interface and override method getType(). Method getType() same for all extends classes.
+ * @author M.Dolgov
+ * @date 14.05.2017
  */
-public class AbstractSpacification<T> implements Specification<T> {
+public class AbstractSpecification<T> implements Specification<T> {
 
     @Override
     public Predicate toPredicate(Root<T> root, CriteriaBuilder cb) {

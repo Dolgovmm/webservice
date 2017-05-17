@@ -8,9 +8,11 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
- * Created by Михалыч on 14.05.2017.
+ * Class to get all ranks by site id from table DB.
+ * @author M.Dolgov
+ * @date 14.05.2017
  */
-public class AllRanksBySite extends AbstractSpacification<Rank> {
+public class AllRanksBySite extends AbstractSpecification<Rank> {
     private long siteId;
 
     public AllRanksBySite(long siteId) {

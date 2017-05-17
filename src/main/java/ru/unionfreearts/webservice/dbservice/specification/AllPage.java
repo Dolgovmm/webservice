@@ -7,9 +7,11 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
- * Created by Михалыч on 14.05.2017.
+ * Class to get all pages from table DB.
+ * @author M.Dolgov
+ * @date 14.05.2017
  */
-public class AllPage extends AbstractSpacification<Page> {
+public class AllPage extends AbstractSpecification<Page> {
 
     public Predicate toPredicate(Root<Page> root, CriteriaBuilder cb) {
         return cb.conjunction();

@@ -5,7 +5,9 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
- * Created by Михалыч on 14.05.2017.
+ * Interface to get entity from table DB over query.
+ * @author M.Dolgov
+ * @date 14.05.2017
  */
 public interface Specification<T> {
 

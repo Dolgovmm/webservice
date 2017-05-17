@@ -14,7 +14,9 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
- * Created by Михалыч on 30.04.2017.
+ * Class describes work with table DB over hibernate framework.
+ * @author M.Dolgov
+ * @date 30.04.2017
  */
 public class DbServiceImpl<T extends AbstractEntity> implements DbService<T> {
 	static final Logger logger = LoggerFactory.getLogger(DbServiceImpl.class);

@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Михалыч on 26.04.2017.
+ * Class implement fake repository to test.
+ * @author M.Dolgov
+ * @date 26.04.2017
  */
 public class FakeRepositoryPageImpl implements Repository<Page> {
     private List<Page> list = new ArrayList<Page>();

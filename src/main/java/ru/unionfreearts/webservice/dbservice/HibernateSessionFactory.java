@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Created by Михалыч on 06.05.2017.
+ * Class implement static methods to get instance of Hibernate session factory.
+ * @author M.Dolgov
+ * @date 6.05.2017
  */
 public class HibernateSessionFactory {
 	static final Logger logger = LoggerFactory.getLogger(HibernateSessionFactory.class);

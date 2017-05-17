@@ -10,9 +10,11 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
- * Created by Михалыч on 14.05.2017.
+ * Class to get all keywords by person id from table DB.
+ * @author M.Dolgov
+ * @date 14.05.2017
  */
-public class KeywordsByPerson extends AbstractSpacification<Keyword> {
+public class KeywordsByPerson extends AbstractSpecification<Keyword> {
     private long personId;
 
     public KeywordsByPerson(long personId) {
