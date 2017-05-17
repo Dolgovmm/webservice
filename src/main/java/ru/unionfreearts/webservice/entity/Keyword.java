@@ -49,4 +49,21 @@ public class Keyword extends AbstractEntity implements Serializable {
     public void setPerson(Person person) {
         this.person = person;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Keyword otherKeyword = (Keyword) obj;
+        if ((this.id == otherKeyword.id) && (this.name.equals(otherKeyword.name))){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "keyword: id = " + id + ", name = " + name;
+    }
 }

@@ -84,4 +84,21 @@ public class Page extends AbstractEntity implements Serializable {
     public void setRanks(Set<Rank> ranks) {
         this.ranks = ranks;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Page otherPage = (Page) obj;
+        if ((this.id == otherPage.id) && (this.url.equals(otherPage.url))){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "page: id = " + id + ", url = " + url;
+    }
 }

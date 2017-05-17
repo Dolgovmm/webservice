@@ -52,11 +52,11 @@ public class Rank extends AbstractEntity implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
 
-        Rank rank = (Rank) o;
+        Rank rank = (Rank) obj;
 
         if (!person.equals(rank.person)) return false;
         return page.equals(rank.page);

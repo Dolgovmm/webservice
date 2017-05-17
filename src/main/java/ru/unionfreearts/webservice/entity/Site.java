@@ -57,10 +57,18 @@ public class Site extends AbstractEntity implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
         Site otherSite = (Site) obj;
         if ((this.id == otherSite.id) && (this.name.equals(otherSite.name))){
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "site: id = " + id + ", name = " + name;
     }
 }

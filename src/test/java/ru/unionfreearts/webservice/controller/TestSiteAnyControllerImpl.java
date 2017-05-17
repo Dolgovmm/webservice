@@ -1,10 +1,12 @@
-package ru.unionfreearts.webservice.repository;
+package ru.unionfreearts.webservice.controller;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ru.unionfreearts.webservice.controller.AnyController;
 import ru.unionfreearts.webservice.entity.Site;
+import ru.unionfreearts.webservice.repository.FakeRepositorySiteImpl;
+import ru.unionfreearts.webservice.repository.Repository;
 
 import java.io.IOException;
 
@@ -13,7 +15,7 @@ import java.io.IOException;
  * @author M.Dolgov
  * create date 15.05.2017
  */
-public class TestSiteRepositoryImpl {
+public class TestSiteAnyControllerImpl {
 
     private Repository repository;
 
