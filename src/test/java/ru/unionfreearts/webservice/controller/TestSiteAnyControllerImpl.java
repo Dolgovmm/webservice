@@ -7,6 +7,7 @@ import ru.unionfreearts.webservice.controller.AnyController;
 import ru.unionfreearts.webservice.entity.Site;
 import ru.unionfreearts.webservice.repository.FakeRepositorySiteImpl;
 import ru.unionfreearts.webservice.repository.Repository;
+import ru.unionfreearts.webservice.repository.SiteRepositoryImpl;
 
 import java.io.IOException;
 
@@ -58,7 +59,7 @@ public class TestSiteAnyControllerImpl {
     }
 
     @Test
-    public void testAnyControllerUdateSiteMethod(){
+    public void testAnyControllerUpdateSiteMethod(){
         long updated = -2;
         try {
             updated = new AnyController<Site>().update(repository,
