@@ -39,6 +39,7 @@ public class RankController {
                                                               @RequestParam(value = "startDate") Long startDate,
                                                               @RequestParam(value = "finishDate") Long finishDate){
         logger.debug("get daily statistic method");
+        ResponseEntity<List<JSONObject>> response;
         try {
             Date nextDate = new Date(startDate);
             Date endDate = new Date(finishDate);
@@ -46,16 +47,15 @@ public class RankController {
             List<Rank> ranks = repository.query(new AllRanksByPersonAndTime(personId, siteId, nextDate, endDate));
             logger.debug("get ranks list from query");
             if (ranks != null) {
-                ResponseEntity<List<JSONObject>> response = new ResponseEntity<>(
-                        getDailyRanks(ranks, nextDate, endDate), HttpStatus.OK);
+                response = new ResponseEntity<>(getDailyRanks(ranks, nextDate, endDate), HttpStatus.OK);
                 logger.debug("create response list of json objects");
                 return response;
             }
-            ResponseEntity<List<JSONObject>> response = new ResponseEntity<>(HttpStatus.OK);
+            response = new ResponseEntity<>(HttpStatus.OK);
             return response;
         }catch (HibernateException ex){
             logger.error("HibernateException on get list of ranks from repository with message: " + ex.getMessage());
-            ResponseEntity<List<JSONObject>> response = new ResponseEntity<>(HttpStatus.OK);
+            response = new ResponseEntity<>(HttpStatus.OK);
             return response;
         }
     }
@@ -64,22 +64,23 @@ public class RankController {
     @ResponseBody
     public ResponseEntity<List<JSONObject>> getTotalStatistic(@PathVariable Long siteId) {
         logger.debug("get total statistic by site method");
+        ResponseEntity<List<JSONObject>> response;
         try {
             List<Rank> ranks = repository.query(new AllRanksBySite(siteId));
             logger.debug("get ranks list from query");
             if (ranks != null) {
                 Map<Long, Rank> rankMap = getRankMap(ranks);
                 logger.debug("create rank map from ranks");
-                ResponseEntity<List<JSONObject>> response = new ResponseEntity<>(getJSONObjectList(rankMap), HttpStatus.OK);
+                response = new ResponseEntity<>(getJSONObjectList(rankMap), HttpStatus.OK);
                 logger.debug("create response list of json objects");
                 return response;
             }
         } catch (HibernateException ex) {
             logger.error("HibernateException on get total statistic repository with message: " + ex.getMessage());
-            ResponseEntity<List<JSONObject>> response = new ResponseEntity<>(HttpStatus.OK);
+            response = new ResponseEntity<>(HttpStatus.OK);
             return response;
         }
-        ResponseEntity<List<JSONObject>> response = new ResponseEntity<>(HttpStatus.OK);
+        response = new ResponseEntity<>(HttpStatus.OK);
         return response;
     }
 

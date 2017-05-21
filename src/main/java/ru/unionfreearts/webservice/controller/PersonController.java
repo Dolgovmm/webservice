@@ -30,26 +30,29 @@ public class PersonController {
 
     @Autowired
     @Qualifier("personRepository")
-    Repository repository;
+    private Repository repository;
+
+    private AnyController<Person> controller = new AnyController<>();
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Long> addPerson(@RequestBody String json) {
         logger.debug("add Person method with request json: " + json);
         long id;
+		ResponseEntity<Long> response;
         try {
-            id = new AnyController<Person>().add(repository, json, Person.class);
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+            id = controller.add(repository, json, Person.class);
+			response = new ResponseEntity<Long>(id, HttpStatus.OK);
 			return response;
         } catch (IOException ex) {
             id = -1l;
-            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+            logger.error("IOException on read json " + json + " with message: " + ex.getMessage());
+			response = new ResponseEntity<Long>(id, HttpStatus.OK);
 			return response;
         } catch (HibernateException ex) {
 			id = -1l;
-			logger.error("HibernateException on add person to repository with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			logger.error("HibernateException on add person to repository with message: " + ex.getMessage());
+			response = new ResponseEntity<Long>(id, HttpStatus.OK);
 			return response;
 		}
     }
@@ -58,15 +61,15 @@ public class PersonController {
     @ResponseBody
     public ResponseEntity<Person> getPersonById(@PathVariable long id){
         logger.debug("get Person by id method with request id: " + id);
+		ResponseEntity<Person> response;
         try {
-			Person person = new AnyController<Person>().getById(repository, id);
-			ResponseEntity<Person> response = new ResponseEntity<>(person, HttpStatus.OK);
+			Person person = controller.getById(repository, id);
+			response = new ResponseEntity<>(person, HttpStatus.OK);
 			return response;
 		} catch (HibernateException ex) {
-			logger.error("HibernateException on get person by id from repository with messsage: " + ex.getMessage());
+			logger.error("HibernateException on get person by id from repository with message: " + ex.getMessage());
 			Person emptyEntity = new Person();
-
-			ResponseEntity<Person> response = new ResponseEntity<>(emptyEntity, HttpStatus.OK);
+			response = new ResponseEntity<>(emptyEntity, HttpStatus.OK);
 			return response;
 		}
     }
@@ -75,15 +78,15 @@ public class PersonController {
     @ResponseBody
     public ResponseEntity<List<Person>> getPersonList(){
         logger.debug("get Person list method");
+		ResponseEntity<List<Person>> response;
         try {
-			ResponseEntity<List<Person>> response = new ResponseEntity<>(
-				new AnyController<Person>().getAll(repository, new AllPerson()), HttpStatus.OK);
+			response = new ResponseEntity<>(controller.getAll(repository, new AllPerson()), HttpStatus.OK);
 			logger.debug("set responseEntity with getted person list and status OK");
 			return response;
 		} catch (HibernateException ex) {
-			logger.error("HibernateException on get person list from repository with messsage: " + ex.getMessage());
+			logger.error("HibernateException on get person list from repository with message: " + ex.getMessage());
 			List<Person> list = new ArrayList<>();
-			ResponseEntity<List<Person>> response = new ResponseEntity<>(list, HttpStatus.OK);
+			response = new ResponseEntity<>(list, HttpStatus.OK);
 			return response;
 		}
     }
@@ -93,19 +96,20 @@ public class PersonController {
     public ResponseEntity<Long> removePerson(@RequestBody String json){
         logger.debug("remove Person method with request json " + json);
         long removed;
+		ResponseEntity<Long> response;
         try {
-			removed = new AnyController<Person>().remove(repository, json, Person.class);
-			ResponseEntity<Long> response = new ResponseEntity<>(removed, HttpStatus.OK);
+			removed = controller.remove(repository, json, Person.class);
+			response = new ResponseEntity<>(removed, HttpStatus.OK);
 			return response;
 		} catch (IOException ex) {
 			removed = -1l;
-            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<>(removed, HttpStatus.OK);
+            logger.error("IOException on read json " + json + " with message: " + ex.getMessage());
+			response = new ResponseEntity<>(removed, HttpStatus.OK);
 			return response;
         } catch (HibernateException ex) {
 			removed = -1l;
-			logger.error("HibernateException on remove Person from repository with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<>(removed, HttpStatus.OK);
+			logger.error("HibernateException on remove Person from repository with message: " + ex.getMessage());
+			response = new ResponseEntity<>(removed, HttpStatus.OK);
 			return response;
 		}
     }
@@ -115,19 +119,20 @@ public class PersonController {
     public ResponseEntity<Long> updatePerson(@RequestBody String json){
         logger.debug("update Person method with request json " + json);
 		long updated;
-        try{
-			updated = new AnyController<Person>().update(repository, json, Person.class);
-			ResponseEntity<Long> response = new ResponseEntity<>(updated, HttpStatus.OK);
+		ResponseEntity<Long> response;
+		try{
+			updated = controller.update(repository, json, Person.class);
+			response = new ResponseEntity<>(updated, HttpStatus.OK);
 			return response;
 		} catch (IOException ex) {
 			updated = -1l;
-            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<>(updated, HttpStatus.OK);
+            logger.error("IOException on read json " + json + " with message: " + ex.getMessage());
+			response = new ResponseEntity<>(updated, HttpStatus.OK);
 			return response;
         } catch (HibernateException ex) {
 			updated = -1l;
-			logger.error("HibernateException on update Person on repository with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<>(updated, HttpStatus.OK);
+			logger.error("HibernateException on update Person on repository with message: " + ex.getMessage());
+			response = new ResponseEntity<>(updated, HttpStatus.OK);
 			return response;
 		}
 

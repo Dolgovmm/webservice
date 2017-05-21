@@ -1,6 +1,5 @@
 package ru.unionfreearts.webservice.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,26 +30,29 @@ public class KeywordController {
 
     @Autowired
     @Qualifier("keywordRepository")
-    Repository repository;
+    private Repository repository;
+
+    private AnyController<Keyword> controller = new AnyController<>();
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Long> addKeyword(@RequestBody String json) {
         logger.debug("add Keyword method with request json: " + json);
         long id;
+		ResponseEntity<Long> response;
         try {
-            id = new AnyController<Keyword>().add(repository, json, Keyword.class);
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+            id = controller.add(repository, json, Keyword.class);
+			response = new ResponseEntity<>(id, HttpStatus.OK);
 			return response;
         } catch (IOException ex) {
             id = -1l;
-            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+            logger.error("IOException on read json " + json + " with message: " + ex.getMessage());
+			response = new ResponseEntity<>(id, HttpStatus.OK);
 			return response;
         } catch (HibernateException ex) {
 			id = -1l;
-			logger.error("HibernateException on add Keyword to repository with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<Long>(id, HttpStatus.OK);
+			logger.error("HibernateException on add Keyword to repository with message: " + ex.getMessage());
+			response = new ResponseEntity<>(id, HttpStatus.OK);
 			return response;
 		}
     }
@@ -59,14 +61,15 @@ public class KeywordController {
     @ResponseBody
     public ResponseEntity<Keyword> getKeywordById(@PathVariable long id){
         logger.debug("get Keyword by id method with request id: " + id);
+		ResponseEntity<Keyword> response;
         try {
-			Keyword keyword = new AnyController<Keyword>().getById(repository, id);
-			ResponseEntity<Keyword> response = new ResponseEntity<>(keyword, HttpStatus.OK);
+			Keyword keyword = controller.getById(repository, id);
+			response = new ResponseEntity<>(keyword, HttpStatus.OK);
 			return response;
 		} catch (HibernateException ex) {
-			logger.error("HibernateException on get Keyword by id from repository with messsage: " + ex.getMessage());
+			logger.error("HibernateException on get Keyword by id from repository with message: " + ex.getMessage());
 			Keyword emptyEntity = new Keyword();
-			ResponseEntity<Keyword> response = new ResponseEntity<Keyword>(emptyEntity, HttpStatus.OK);
+			response = new ResponseEntity<>(emptyEntity, HttpStatus.OK);
 			return response;
 		}
     }
@@ -75,37 +78,38 @@ public class KeywordController {
     @ResponseBody
     public ResponseEntity<List<Keyword>> getKeywordList(){
         logger.debug("get Keyword list method");
+		ResponseEntity<List<Keyword>> response;
         try {
-			ResponseEntity<List<Keyword>> response = new ResponseEntity<>(
-				new AnyController<Keyword>().getAll(repository, new AllKeywords()), HttpStatus.OK);
+			response = new ResponseEntity<>(controller.getAll(repository, new AllKeywords()), HttpStatus.OK);
 			logger.debug("set responseEntity with getted Keyword list and status OK");
 			return response;
 		} catch (HibernateException ex) {
 			logger.error("HibernateException on get Keyword list from repository with messsage: " + ex.getMessage());
 			List<Keyword> list = new ArrayList<>();
-			ResponseEntity<List<Keyword>> response = new ResponseEntity<>(list, HttpStatus.OK);
+			response = new ResponseEntity<>(list, HttpStatus.OK);
 			return response;
 		}
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<Long> removeKeyword(@RequestBody String json){
         logger.debug("remove Keyword method with request json " + json);
         long removed;
+		ResponseEntity<Long> response;
         try {
-			removed = new AnyController<Keyword>().remove(repository, json, Keyword.class);
-			ResponseEntity<Long> response = new ResponseEntity<>(removed, HttpStatus.OK);
+			removed = controller.remove(repository, json, Keyword.class);
+			response = new ResponseEntity<>(removed, HttpStatus.OK);
 			return response;
 		} catch (IOException ex) {
 			removed = -1l;
-            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<>(removed, HttpStatus.OK);
+            logger.error("IOException on read json " + json + " with message: " + ex.getMessage());
+			response = new ResponseEntity<>(removed, HttpStatus.OK);
 			return response;
         } catch (HibernateException ex) {
 			removed = -1l;
-			logger.error("HibernateException on remove Keyword from repository with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<>(removed, HttpStatus.OK);
+			logger.error("HibernateException on remove Keyword from repository with message: " + ex.getMessage());
+			response = new ResponseEntity<>(removed, HttpStatus.OK);
 			return response;
 		}
     }
@@ -115,19 +119,20 @@ public class KeywordController {
     public ResponseEntity<Long> updateKeyword(@RequestBody String json){
         logger.debug("update Keyword method with request json " + json);
         long updated;
-		try{
-			updated = new AnyController<Keyword>().update(repository, json, Keyword.class);
-			ResponseEntity<Long> response = new ResponseEntity<>(updated, HttpStatus.OK);
+		ResponseEntity<Long> response;
+        try{
+			updated = controller.update(repository, json, Keyword.class);
+			response = new ResponseEntity<>(updated, HttpStatus.OK);
 			return response;
 		} catch (IOException ex) {
 			updated = -1l;
-            logger.error("IOException on read json " + json + " with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<>(updated, HttpStatus.OK);
+            logger.error("IOException on read json " + json + " with message: " + ex.getMessage());
+			response = new ResponseEntity<>(updated, HttpStatus.OK);
 			return response;
         } catch (HibernateException ex) {
 			updated = -1l;
-			logger.error("HibernateException on update Keyword on repository with messsage: " + ex.getMessage());
-			ResponseEntity<Long> response = new ResponseEntity<>(updated, HttpStatus.OK);
+			logger.error("HibernateException on update Keyword on repository with message: " + ex.getMessage());
+			response = new ResponseEntity<>(updated, HttpStatus.OK);
 			return response;
 		}
     }
