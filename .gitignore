@@ -2,3 +2,7 @@
 *.iml
 out
 target
+/bin/
+.classpath
+.project
+.settings/

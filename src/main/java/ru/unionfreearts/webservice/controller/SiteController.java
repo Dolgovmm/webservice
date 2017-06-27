@@ -37,105 +37,51 @@ public class SiteController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Long> addSite(@RequestBody String json) {
-        logger.debug("add Site method with request json: " + json);
-        long id;
-        ResponseEntity<Long> response;
-        try {
-            id = controller.add(repository, json, Site.class);
-            response = new ResponseEntity<>(id, HttpStatus.OK);
-            return response;
-        } catch (IOException ex) {
-            id = -1l;
-            logger.error("IOException on read json " + json + " with message: " + ex.getMessage());
-            response = new ResponseEntity<>(id, HttpStatus.OK);
-            return response;
-        } catch (HibernateException ex) {
-            id = -1l;
-            logger.error("HibernateException on add site to repository with message: " + ex.getMessage());
-            response = new ResponseEntity<>(id, HttpStatus.OK);
-            return response;
-        }
+    public ResponseEntity<Site> addSite(@RequestBody String json) {
+        Site site;
+        site = controller.add(repository, json, Site.class);
+        return new ResponseEntity<>(site, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Site> getSiteById(@PathVariable long id) {
-        logger.debug("get Site by id method with request id: " + id);
-        ResponseEntity<Site> response;
-        try {
-            Site site = controller.getById(repository, id);
-            response = new ResponseEntity<>(site, HttpStatus.OK);
-            return response;
-        } catch (HibernateException ex) {
-            logger.error("HibernateException on get site by id from repository with messsage: " + ex.getMessage());
-            Site emptyEntity = new Site();
-            response = new ResponseEntity<>(emptyEntity, HttpStatus.OK);
-            return response;
-        }
+            Site site = controller.getById(repository, id, Site.class);
+            return new ResponseEntity<>(site, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<Site>> getAllSites() {
-        logger.debug("get Site list method");
-        ResponseEntity<List<Site>> response;
-        try {
-            response = new ResponseEntity<>(
-                    controller.getAll(repository, new AllSites()), HttpStatus.OK);
-            logger.debug("set responseEntity with getted site list and status OK");
-            return response;
-        } catch (HibernateException ex) {
-            logger.error("HibernateException on get site list from repository with message: " + ex.getMessage());
-            List<Site> list = new ArrayList<>();
-            response = new ResponseEntity<>(list, HttpStatus.OK);
-            return response;
-        }
+        List<Site> list;
+        list = controller.getAll(repository, new AllSites(), Site.class);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.DELETE)
     @ResponseBody
-    public ResponseEntity<Long> removeSite(@RequestBody String json) {
-        logger.debug("remove Site method with request json " + json);
-        long removed;
-        ResponseEntity<Long> response;
-        try {
-            removed = controller.remove(repository, json, Site.class);
-            response = new ResponseEntity<>(removed, HttpStatus.OK);
-            return response;
-        } catch (IOException ex) {
-            removed = -1l;
-            logger.error("IOException on read json " + json + " with message: " + ex.getMessage());
-            response = new ResponseEntity<>(removed, HttpStatus.OK);
-            return response;
-        } catch (HibernateException ex) {
-            removed = -1l;
-            logger.error("HibernateException on remove site from repository with message: " + ex.getMessage());
-            response = new ResponseEntity<>(removed, HttpStatus.OK);
-            return response;
+    public ResponseEntity<Site> removeSite(@RequestBody String json) {
+        boolean removed;
+
+        removed = controller.remove(repository, json, Site.class);
+        if (removed) {
+        	return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<Long> updateSite(@RequestBody String json) {
-        logger.debug("update Site method with request json " + json);
-        long updated;
-        ResponseEntity<Long> response;
-        try {
-            updated = controller.update(repository, json, Site.class);
-            response = new ResponseEntity<>(updated, HttpStatus.OK);
-            return response;
-        } catch (IOException ex) {
-            updated = -1l;
-            logger.error("IOException on read json " + json + " with message: " + ex.getMessage());
-            response = new ResponseEntity<>(updated, HttpStatus.OK);
-            return response;
-        } catch (HibernateException ex) {
-            updated = -1l;
-            logger.error("HibernateException on update site on repository with message: " + ex.getMessage());
-            response = new ResponseEntity<>(updated, HttpStatus.OK);
-            return response;
+    public ResponseEntity<Site> updateSite(@RequestBody String json) {
+        boolean updated;
+
+        updated = controller.update(repository, json, Site.class);
+        if (updated) {
+        	return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        
     }
 }

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.AbstractEntity;
+import ru.unionfreearts.webservice.entity.Site;
 import ru.unionfreearts.webservice.repository.Repository;
 
 import java.io.IOException;
@@ -19,49 +20,193 @@ import java.util.List;
 public class AnyController<T extends AbstractEntity> {
     static final Logger logger = LoggerFactory.getLogger(AnyController.class);
 
-    public long add(Repository repository, String json, Class tClass) throws IOException, HibernateException{
-        T entity;
-        logger.debug("create empty entity instance");
-        long id;
-        entity = (T) new ObjectMapper().readValue(json, tClass);
-        logger.debug("get value entity instance from json");
-        id = repository.add(entity);
-        logger.debug("add entity instance to repository: " + entity.toString());
-        return id;
+	public T add(Repository repository, String json, Class tClass){
+        T entity = null;
+        
+        try {
+			entity = (T) new ObjectMapper().readValue(json, tClass);
+			repository.add(entity);
+			if (logger.isDebugEnabled()) {
+	        	StringBuilder sb = new StringBuilder();
+	        	sb.append("add entity instance of ");
+	        	sb.append(tClass);
+	        	sb.append("from json string {");
+	        	sb.append(json);
+	        	sb.append("}: ");
+	        	sb.append(entity.toString());
+	        	logger.debug(sb.toString());
+	        }
+			return entity;
+		} catch (IOException ex) {
+			if (logger.isErrorEnabled()) {
+            	StringBuilder sb = new StringBuilder();
+            	sb.append("IOException on read json {");
+            	sb.append(json);
+            	sb.append("} with message: ");
+            	sb.append(ex.getMessage());
+            	logger.error(sb.toString());
+            }
+			return null;
+		} catch (HibernateException ex) {
+        	if (logger.isErrorEnabled()) {
+            	StringBuilder sb = new StringBuilder();
+            	sb.append("HibernateException on add entity ");
+            	sb.append(entity.toString());
+            	sb.append(" instance of ");
+            	sb.append(tClass);
+            	sb.append(" to repository with message: ");
+            	sb.append(ex.getMessage());
+            	logger.error(sb.toString());
+            }   
+        	return null;
+		}
     }
 
-    public T getById(Repository repository, long id) throws HibernateException{
-        T entity;
-        logger.debug("create empty entity instance");
-        entity = (T)repository.get(id);
-        logger.debug("get site instance from repository: " + entity.toString());
-        return entity;
+    public T getById(Repository repository, long id, Class tClass) {
+        T entity = null;
+        try {
+	        entity = (T)repository.get(id);
+	        if (logger.isDebugEnabled()) {
+	        	StringBuilder sb = new StringBuilder();
+	        	sb.append("get entity instance of");
+	        	sb.append(tClass);
+	        	sb.append(" by id {");
+	        	sb.append(id);
+	        	sb.append("}: ");
+	        	sb.append(entity.toString());
+	        	logger.debug(sb.toString());
+	        }
+	        return entity;
+        } catch (HibernateException ex) {
+        	if (logger.isErrorEnabled()) {
+            	StringBuilder sb = new StringBuilder();
+            	sb.append("HibernateException on get ");
+            	sb.append(tClass);
+            	sb.append(" from repository by id {");
+            	sb.append(id);
+            	sb.append("} with message: ");
+            	sb.append(ex.getMessage());
+            	logger.error(sb.toString());
+            }
+        	return null;
+        }
     }
 
-    public List<T> getAll(Repository repository, Specification<T> specification) throws HibernateException{
-        List<T> list = repository.query(specification);
-        return list;
+    public List<T> getAll(Repository repository, Specification<T> specification, Class tClass) {
+        try {
+        	List<T> list = repository.query(specification);
+        	if (logger.isDebugEnabled()) {
+	        	StringBuilder sb = new StringBuilder();
+	        	sb.append("get all entity instance of ");
+	        	sb.append(tClass);
+	        	sb.append(": ");
+	        	sb.append(list.toString());
+	        	logger.debug(sb.toString());
+	        }
+        	return list;
+        } catch (HibernateException ex) {
+        	if (logger.isErrorEnabled()) {
+            	StringBuilder sb = new StringBuilder();
+            	sb.append("HibernateException on get all instances of");
+            	sb.append(tClass);
+            	sb.append(" from repository with message: ");
+            	sb.append(ex.getMessage());
+            	logger.error(sb.toString());
+            }
+        	return null;
+        }
     }
 
-    public long remove(Repository repository, String json, Class tClass) throws IOException, HibernateException{
-        T entity;
-        logger.debug("create empty entity instance");
-        long removed;
-        entity = (T) new ObjectMapper().readValue(json, tClass);
-        logger.debug("get value entity instance from json");
-        removed = repository.remove(entity);
-        logger.debug("remove entity from repository: " + entity.toString());
-        return removed;
+    public boolean remove(Repository repository, String json, Class tClass) {
+        T entity = null;
+        boolean removed;
+        
+        try{
+	        entity = (T) new ObjectMapper().readValue(json, tClass);
+	        
+	        removed = repository.remove(entity);
+	        
+	        if (logger.isDebugEnabled()) {
+	        	StringBuilder sb = new StringBuilder();
+	        	sb.append("remove entity instance of ");
+	        	sb.append(tClass);
+	        	sb.append("from json string {");
+	        	sb.append(json);
+	        	sb.append("}: ");
+	        	sb.append(entity.toString());
+	        	logger.debug(sb.toString());
+	        }
+	        return removed;
+	        
+        } catch (IOException ex) {
+        	if (logger.isErrorEnabled()) {
+            	StringBuilder sb = new StringBuilder();
+            	sb.append("IOException on read json {");
+            	sb.append(json);
+            	sb.append("} with message: ");
+            	sb.append(ex.getMessage());
+            	logger.error(sb.toString());
+            }
+        	return false;
+        	
+        } catch (HibernateException ex) {
+        	if (logger.isErrorEnabled()) {
+            	StringBuilder sb = new StringBuilder();
+            	sb.append("HibernateException on remove entity ");
+            	sb.append(entity.toString());
+            	sb.append(" instance of ");
+            	sb.append(tClass);
+            	sb.append(" to repository with message: ");
+            	sb.append(ex.getMessage());
+            	logger.error(sb.toString());
+            }
+        	return false;
+        }
+
+        
     }
 
-    public long update(Repository repository, String json, Class tClass) throws IOException, HibernateException{
-        T entity;
-        logger.debug("create empty entity instance");
-        long updated;
-        entity = (T) new ObjectMapper().readValue(json, tClass);
-        logger.debug("get value entity instance from json");
-        updated = repository.update(entity);
-        logger.debug("update entity on repository: " + entity.toString());
-        return updated;
+    public boolean update(Repository repository, String json, Class tClass) {
+        T entity = null;
+        boolean updated;
+        
+        try {
+	        entity = (T) new ObjectMapper().readValue(json, tClass);
+	
+	        updated = repository.update(entity);
+	        if (logger.isDebugEnabled()) {
+	        	StringBuilder sb = new StringBuilder();
+	        	sb.append("update entity instance of ");
+	        	sb.append(tClass);
+	        	sb.append("from json string {");
+	        	sb.append(json);
+	        	sb.append("}: ");
+	        	sb.append(entity.toString());
+	        	logger.debug(sb.toString());
+	        }
+	        return updated;
+        } catch (IOException ex) {
+        	if (logger.isErrorEnabled()) {
+            	StringBuilder sb = new StringBuilder();
+            	sb.append("IOException on read json {");
+            	sb.append(json);
+            	sb.append("} with message: ");
+            	sb.append(ex.getMessage());
+            	logger.error(sb.toString());
+            }
+        	return false;
+        } catch (HibernateException ex) {
+        	if (logger.isErrorEnabled()) {
+            	StringBuilder sb = new StringBuilder();
+            	sb.append("HibernateException on update entity ");
+            	sb.append(entity.toString());
+            	sb.append(" instance of ");
+            	sb.append(tClass);
+            	sb.append(" to repository with message: ");
+            	sb.append(ex.getMessage());
+            	logger.error(sb.toString());
+            }
+        	return false;
+        }
     }
 }
