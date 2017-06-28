@@ -72,7 +72,15 @@ public class RankController {
         }catch (HibernateException ex){
         	if (logger.isErrorEnabled()) {
             	StringBuilder sb = new StringBuilder();
-            	sb.append("HibernateException on get list of ranks from repository with message: ");
+            	sb.append("HibernateException on get list of ranks from repository by person id {");
+            	sb.append(personId);
+            	sb.append("}, site id {");
+            	sb.append(siteId);
+            	sb.append("}, begin date {");
+            	sb.append(startDate);
+            	sb.append("}, end date {");
+            	sb.append(finishDate);
+            	sb.append("} with message: ");
             	sb.append(ex.getMessage());
             	logger.error(sb.toString());
             }   
@@ -82,81 +90,83 @@ public class RankController {
 
     @RequestMapping(value = "/total/{siteId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<JSONObject>> getTotalStatistic(@PathVariable Long siteId) {
-        logger.debug("get total statistic by site method");
-        ResponseEntity<List<JSONObject>> response;
+    public ResponseEntity<List<JSONObject>> getTotalStatistic(@PathVariable Long siteId) {        
         try {
             List<Rank> ranks = repository.query(new AllRanksBySite(siteId));
-            logger.debug("get ranks list from query");
-            if (ranks != null) {
-                Map<Long, Rank> rankMap = getRankMap(ranks);
-                logger.debug("create rank map from ranks");
-                response = new ResponseEntity<>(getJSONObjectList(rankMap), HttpStatus.OK);
-                logger.debug("create response list of json objects");
-                return response;
-            }
+            Map<Long, Rank> rankMap = getRankMap(ranks);
+            List<JSONObject> list = getJSONObjectList(rankMap);
+            if (logger.isDebugEnabled()) {
+	        	StringBuilder sb = new StringBuilder();
+	        	sb.append("get total statistic ");
+	        	sb.append(" from repository:");
+	        	sb.append(list.toString());
+	        	logger.debug(sb.toString());
+	        }
+            return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (HibernateException ex) {
-            logger.error("HibernateException on get total statistic repository with message: " + ex.getMessage());
-            response = new ResponseEntity<>(HttpStatus.OK);
-            return response;
+        	if (logger.isErrorEnabled()) {
+            	StringBuilder sb = new StringBuilder();
+            	sb.append("HibernateException on get total statistic from repository by site id {");
+            	sb.append(siteId);
+            	sb.append("} with message: ");
+            	sb.append(ex.getMessage());
+            	logger.error(sb.toString());
+            }
+        	return new ResponseEntity<>(HttpStatus.OK);
         }
-        response = new ResponseEntity<>(HttpStatus.OK);
-        return response;
     }
 
     private List<JSONObject> getDailyRanks(List<Rank> ranks, Date nextDate, Date endDate){
-        List<JSONObject> jsonObjects = new ArrayList<>();
-        logger.debug("create list of json objects");
+    	List<JSONObject> jsonObjects = new ArrayList<>();
+    	if (ranks == null || nextDate == null || endDate == null) return jsonObjects;
+        
+    	Date currentDate = nextDate;
         do {
             JSONObject dailyRank = new JSONObject();
             for (Rank rank : ranks) {
-                if (rank.getPage().getFoundDateTime().equals(nextDate) && !dailyRank.isEmpty()) {
-                    dailyRank.replace("rank", (Integer) dailyRank.get("rank") + rank.getRank());
-                    logger.debug("if rank not empty then add daily rank");
-                } else if (dailyRank.isEmpty() && rank.getPage().getFoundDateTime().equals(nextDate)) {
-                    dailyRank.put("date", rank.getPage().getFoundDateTime().getTime());
-                    dailyRank.put("rank", rank.getRank());
-                    logger.debug("if rank is empty then put daily rank");
+                if (rank.getPage().getFoundDateTime().equals(currentDate)) {
+                    if (!dailyRank.isEmpty()) {
+                    	dailyRank.replace("rank", (Integer) dailyRank.get("rank") + rank.getRank());
+                    } else {
+                    	dailyRank.put("date", rank.getPage().getFoundDateTime().getTime());
+                        dailyRank.put("rank", rank.getRank());
+                    }
                 }
             }
             if (!dailyRank.isEmpty()) {
                 jsonObjects.add(dailyRank);
-                logger.debug("if daily rank not empty then add daily rank to json object list");
             }
-            nextDate.setTime(nextDate.getTime() + (1000 * 60 * 60 * 24));
+            currentDate.setTime(currentDate.getTime() + (1000 * 60 * 60 * 24)); //next day
         }
-        while (nextDate.before(endDate));
+        while (currentDate.before(endDate));
+        
         return jsonObjects;
     }
 
     private Map<Long, Rank> getRankMap(List<Rank> ranks){
-        Map<Long, Rank> rankMap = new HashMap<>();
-        logger.debug("create rank map");
-        for (Rank rank : ranks) {
-            Long personId = rank.getPerson().getId();
-            logger.debug("get person id");
+    	Map<Long, Rank> rankMap = new HashMap<>();
+    	if (ranks == null) return rankMap;
+        
+    	for (Rank rank : ranks) {
+            long personId = rank.getPerson().getId();
             if (rankMap.containsKey(personId)) {
                 rankMap.get(personId).setRank(rankMap.get(personId).getRank()+rank.getRank());
-                logger.debug("if rank map contains person id then add rank to rank map");
             } else {
                 rankMap.put(rank.getPerson().getId(), rank);
-                logger.debug("if rank map not contain person id then put rank to rank map");
             }
         }
         return rankMap;
     }
 
     private List<JSONObject> getJSONObjectList(Map<Long, Rank> rankMap){
-        List<JSONObject> jsonObjects = new ArrayList<>();
-        logger.debug("create list of json objects");
-        for (Rank rank : rankMap.values()) {
+    	List<JSONObject> jsonObjects = new ArrayList<>();
+    	if (rankMap == null) return jsonObjects;
+        
+    	for (Rank rank : rankMap.values()) {
             JSONObject totalRank = new JSONObject();
-            logger.debug("create json object total rank");
             totalRank.put("name", rank.getPerson().getName());
             totalRank.put("rank", rank.getRank());
-            logger.debug("put total rank object to rank map");
             jsonObjects.add(totalRank);
-            logger.debug("add total rank to rank list");
         }
         return jsonObjects;
     }

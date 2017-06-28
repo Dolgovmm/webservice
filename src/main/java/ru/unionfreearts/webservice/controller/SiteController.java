@@ -53,7 +53,7 @@ public class SiteController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<Site>> getAllSites() {
-        List<Site> list;
+        List<Site> list = null;
         list = controller.getAll(repository, new AllSites(), Site.class);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
