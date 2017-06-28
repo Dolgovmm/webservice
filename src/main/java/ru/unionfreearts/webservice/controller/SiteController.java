@@ -38,7 +38,7 @@ public class SiteController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Site> addSite(@RequestBody String json) {
-        Site site;
+        Site site = null;
         site = controller.add(repository, json, Site.class);
         return new ResponseEntity<>(site, HttpStatus.OK);
     }
@@ -46,7 +46,8 @@ public class SiteController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Site> getSiteById(@PathVariable long id) {
-            Site site = controller.getById(repository, id, Site.class);
+            Site site = null;
+            site = controller.getById(repository, id, Site.class);
             return new ResponseEntity<>(site, HttpStatus.OK);
     }
 

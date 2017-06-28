@@ -47,8 +47,9 @@ public class PersonController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Person> getPersonById(@PathVariable long id){
-    	
-		Person person = controller.getById(repository, id, Person.class);
+		Person person = null;
+		
+		person = controller.getById(repository, id, Person.class);
 		
 		return new ResponseEntity<>(person, HttpStatus.OK);
     }
