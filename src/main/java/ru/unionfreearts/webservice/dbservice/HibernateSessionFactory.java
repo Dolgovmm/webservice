@@ -16,12 +16,10 @@ public class HibernateSessionFactory {
     private static SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
     public static SessionFactory getSessionFactory(){
-        logger.debug("get sessionFactory");
 		return sessionFactory;
     }
 
     public static void shutdown(){
-		logger.debug("sessionFactory shutdown");
         sessionFactory.close();
     }
 }

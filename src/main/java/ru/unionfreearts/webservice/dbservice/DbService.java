@@ -12,13 +12,13 @@ import java.util.List;
  */
 public interface DbService<T> {
 
-    public long add(T entity);
+    public T add(T entity);
 
     public T get(long id);
 
-    public long remove(T entity);
+    public boolean remove(T entity);
 
-    public long update(T entity);
+    public boolean update(T entity);
 
     public List<T> query(Specification<T> specification);
 }
