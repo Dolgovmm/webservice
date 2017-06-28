@@ -38,25 +38,45 @@ public class RankController {
                                                               @RequestParam(value = "siteId") Long siteId,
                                                               @RequestParam(value = "startDate") Long startDate,
                                                               @RequestParam(value = "finishDate") Long finishDate){
-        logger.debug("get daily statistic method");
-        ResponseEntity<List<JSONObject>> response;
         try {
             Date nextDate = new Date(startDate);
             Date endDate = new Date(finishDate);
-            logger.debug("set next date and end date variable");
+            
             List<Rank> ranks = repository.query(new AllRanksByPersonAndTime(personId, siteId, nextDate, endDate));
-            logger.debug("get ranks list from query");
+            if (logger.isDebugEnabled()) {
+	        	StringBuilder sb = new StringBuilder();
+	        	sb.append("get list of ");
+	        	sb.append(Rank.class);
+	        	sb.append(" from repository:");
+	        	sb.append(ranks.toString());
+	        	logger.debug(sb.toString());
+	        }
+            
             if (ranks != null) {
-                response = new ResponseEntity<>(getDailyRanks(ranks, nextDate, endDate), HttpStatus.OK);
-                logger.debug("create response list of json objects");
-                return response;
+            	List<JSONObject> list = null;
+            	
+            	list = getDailyRanks(ranks, nextDate, endDate);
+            	if (logger.isDebugEnabled()) {
+    	        	StringBuilder sb = new StringBuilder();
+    	        	sb.append("get list of ");
+    	        	sb.append(Rank.class);
+    	        	sb.append(" from repository:");
+    	        	sb.append(ranks.toString());
+    	        	logger.debug(sb.toString());
+    	        }
+            	return new ResponseEntity<>(list, HttpStatus.OK);
             }
-            response = new ResponseEntity<>(HttpStatus.OK);
-            return response;
+            
+            return new ResponseEntity<>(HttpStatus.OK);
+            
         }catch (HibernateException ex){
-            logger.error("HibernateException on get list of ranks from repository with message: " + ex.getMessage());
-            response = new ResponseEntity<>(HttpStatus.OK);
-            return response;
+        	if (logger.isErrorEnabled()) {
+            	StringBuilder sb = new StringBuilder();
+            	sb.append("HibernateException on get list of ranks from repository with message: ");
+            	sb.append(ex.getMessage());
+            	logger.error(sb.toString());
+            }   
+        	return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
