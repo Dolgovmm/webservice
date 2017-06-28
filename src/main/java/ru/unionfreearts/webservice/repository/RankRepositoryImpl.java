@@ -21,23 +21,19 @@ public class RankRepositoryImpl implements Repository<Rank>{
 
     private DbService<Rank> dbService = new DbServiceImpl<>(Rank.class);
 
-    public long add(Rank entity) throws HibernateException {
-        logger.debug("add rank entity: " + entity.toString());
+    public Rank add(Rank entity) throws HibernateException {
         return dbService.add(entity);
     }
 
     public Rank get(long id) throws HibernateException{
-        logger.debug("get rank entity with id: " + id);
         return dbService.get(id);
     }
 
-    public long remove(Rank entity) throws HibernateException{
-        logger.debug("remove rank entity: " + entity.toString());
+    public boolean remove(Rank entity) throws HibernateException{
         return dbService.remove(entity);
     }
 
-    public long update(Rank entity) throws HibernateException{
-        logger.debug("update rank entity: " + entity.toString());
+    public boolean update(Rank entity) throws HibernateException{
         return dbService.update(entity);
     }
 

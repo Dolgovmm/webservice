@@ -15,9 +15,10 @@ public class FakeRepositorySiteImpl implements Repository<Site> {
 
     private List<Site> list = new ArrayList<Site>();
 
-    public long add(Site entity) {
+    public Site add(Site entity) {
         list.add(entity);
-        return list.indexOf(entity);
+        entity.setId(list.indexOf(entity));
+        return entity;
     }
 
     public List<Site> getAll() {
@@ -28,8 +29,8 @@ public class FakeRepositorySiteImpl implements Repository<Site> {
         return list.get(((int) id));
     }
 
-    public long remove(Site entity) {
-        return list.remove(entity)? 1 : 0;
+    public boolean remove(Site entity) {
+        return list.remove(entity);
     }
 
     @Override
@@ -37,8 +38,13 @@ public class FakeRepositorySiteImpl implements Repository<Site> {
         return null;
     }
 
-    public long update(Site entity) {
-        list.set((int)entity.getId(), entity);
-        return 1;
+    public boolean update(Site entity) {
+        if (list.size() < entity.getId()) {
+        	list.set((int)entity.getId(), entity);
+        	return true;
+        } else {
+        	return false;
+        }
+        
     }
 }

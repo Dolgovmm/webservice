@@ -20,28 +20,23 @@ public class PersonRepositoryImpl implements Repository<Person> {
 	
     private DbService<Person> dbService = new DbServiceImpl<Person>(Person.class);
 
-    public long add(Person entity) throws HibernateException {
-		logger.debug("add Person entity: " + entity.toString());
+    public Person add(Person entity) throws HibernateException {
         return dbService.add(entity);
     }
 
     public List<Person> query(Specification<Person> specification) throws HibernateException {
-        logger.debug("get Person list by query");
         return dbService.query(specification);
     }
 
     public Person get(long id) throws HibernateException {
-		logger.debug("get Person entity with id: " + id);
         return dbService.get(id);
     }
 
-    public long remove(Person entity) throws HibernateException {
-		logger.debug("remove Person entity: " + entity.toString());
+    public boolean remove(Person entity) throws HibernateException {
         return dbService.remove(entity);
     }
 
-    public long update(Person entity) throws HibernateException {
-		logger.debug("update Person entity: " + entity.toString());
+    public boolean update(Person entity) throws HibernateException {
         return dbService.update(entity);
     }
 }

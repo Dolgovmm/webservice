@@ -20,29 +20,24 @@ public class PageRepositoryImpl implements Repository<Page> {
 	
     private DbService<Page> dbService = new DbServiceImpl<Page>(Page.class);
 
-    public long add(Page entity) throws HibernateException {
-        logger.debug("add Page entity: " + entity.toString());
+    public Page add(Page entity) throws HibernateException {
 		return dbService.add(entity);
     }
 
     public Page get(long id) throws HibernateException {
-        logger.debug("get Page entity with id: " + id);
 		return dbService.get(id);
     }
 
-    public long remove(Page entity) throws HibernateException {
-		logger.debug("remove Page entity: " + entity.toString());
+    public boolean remove(Page entity) throws HibernateException {
         return dbService.remove(entity);
     }
 
-    public long update(Page entity) throws HibernateException {
-        logger.debug("update Page entity: " + entity.toString());
+    public boolean update(Page entity) throws HibernateException {
 		return dbService.update(entity);
     }
 
     @Override
     public List<Page> query(Specification<Page> specification) throws HibernateException {
-        logger.debug("get Page list by query");
         return dbService.query(specification);
     }
 }

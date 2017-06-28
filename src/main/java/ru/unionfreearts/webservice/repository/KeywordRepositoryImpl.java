@@ -20,28 +20,23 @@ public class KeywordRepositoryImpl implements Repository<Keyword> {
 	
     private DbService<Keyword> dbService = new DbServiceImpl<Keyword>(Keyword.class);
 
-    public long add(Keyword entity) throws HibernateException {
-        logger.debug("add Keyword entity: " + entity.toString());
+    public Keyword add(Keyword entity) throws HibernateException {
 		return dbService.add(entity);
     }
 
     public Keyword get(long id) throws HibernateException {
-        logger.debug("get Keyword entity with id: " + id);
 		return dbService.get(id);
     }
 
-    public long remove(Keyword entity) throws HibernateException {
-        logger.debug("remove Keyword entity: " + entity.toString());
+    public boolean remove(Keyword entity) throws HibernateException {
 		return dbService.remove(entity);
     }
 
-    public long update(Keyword entity) throws HibernateException {
-        logger.debug("update Keyword entity: " + entity.toString());
+    public boolean update(Keyword entity) throws HibernateException {
 		return dbService.update(entity);
     }
 
     public List<Keyword> query(Specification<Keyword> specification) throws HibernateException {
-        logger.debug("get Keyword list by query");
         return dbService.query(specification);
     }
 }

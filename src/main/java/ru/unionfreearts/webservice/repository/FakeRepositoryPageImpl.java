@@ -14,9 +14,10 @@ import java.util.List;
 public class FakeRepositoryPageImpl implements Repository<Page> {
     private List<Page> list = new ArrayList<Page>();
 
-    public long add(Page entity) {
-        list.add(entity);
-        return list.indexOf(entity);
+    public Page add(Page entity) {
+    	list.add(entity);
+        entity.setId(list.indexOf(entity));
+        return entity;
     }
 
     public List<Page> getAll() {
@@ -27,12 +28,17 @@ public class FakeRepositoryPageImpl implements Repository<Page> {
         return list.get((int)id);
     }
 
-    public long remove(Page entity) {
-        return list.remove(entity) == true? 1 : 0;
+    public boolean remove(Page entity) {
+        return list.remove(entity);
     }
 
-    public long update(Page entity) {
-        return 1;
+    public boolean update(Page entity) {
+    	if (list.size() < entity.getId()) {
+        	list.set((int)entity.getId(), entity);
+        	return true;
+        } else {
+        	return false;
+        }
     }
 
     @Override

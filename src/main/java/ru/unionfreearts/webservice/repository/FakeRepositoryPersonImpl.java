@@ -12,11 +12,12 @@ import java.util.List;
  * @date 26.04.2017
  */
 public class FakeRepositoryPersonImpl implements Repository<Person> {
-    private List<Person> list = new ArrayList<Person>();
+    private List<Person> list = new ArrayList<>();
 
-    public long add(Person entity) {
-        list.add(entity);
-        return list.indexOf(entity);
+    public Person add(Person entity) {
+    	list.add(entity);
+        entity.setId(list.indexOf(entity));
+        return entity;
     }
 
     public List<Person> getAll() {
@@ -27,12 +28,17 @@ public class FakeRepositoryPersonImpl implements Repository<Person> {
         return list.get((int)id);
     }
 
-    public long remove(Person entity) {
-        return list.remove(entity) == true? 1 : 0;
+    public boolean remove(Person entity) {
+        return list.remove(entity);
     }
 
-    public long update(Person entity) {
-        return 1;
+    public boolean update(Person entity) {
+    	if (list.size() < entity.getId()) {
+        	list.set((int)entity.getId(), entity);
+        	return true;
+        } else {
+        	return false;
+        }
     }
 
     @Override

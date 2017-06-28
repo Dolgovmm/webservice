@@ -14,9 +14,10 @@ import java.util.List;
 public class FakeRepositoryKeyWordsImpl implements Repository<Keyword>{
     private List<Keyword> list = new ArrayList<Keyword>();
 
-    public long add(Keyword entity) {
-        list.add(entity);
-        return list.indexOf(entity);
+    public Keyword add(Keyword entity) {
+    	list.add(entity);
+        entity.setId(list.indexOf(entity));
+        return entity;
     }
 
     public List<Keyword> getAll() {
@@ -27,12 +28,17 @@ public class FakeRepositoryKeyWordsImpl implements Repository<Keyword>{
         return list.get((int)id);
     }
 
-    public long remove(Keyword entity) {
-        return list.remove(entity) == true? 1 : 0;
+    public boolean remove(Keyword entity) {
+        return list.remove(entity);
     }
 
-    public long update(Keyword entity) {
-        return 1;
+    public boolean update(Keyword entity) {
+    	if (list.size() < entity.getId()) {
+        	list.set((int)entity.getId(), entity);
+        	return true;
+        } else {
+        	return false;
+        }
     }
 
     public List<Keyword> query(Specification<Keyword> specification) {
