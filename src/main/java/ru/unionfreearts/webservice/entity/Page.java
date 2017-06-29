@@ -37,7 +37,7 @@ public class Page extends AbstractEntity implements Serializable {
         this.lastDateTime = lastDateTime;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 

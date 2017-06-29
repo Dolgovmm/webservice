@@ -12,7 +12,11 @@ import java.util.List;
  * @date 26.04.2017
  */
 public class FakeRepositoryPersonImpl implements Repository<Person> {
-    private List<Person> list = new ArrayList<>();
+    private List<Person> list;
+
+    public FakeRepositoryPersonImpl() {
+        list = new ArrayList<>();
+    }
 
     public Person add(Person entity) {
     	list.add(entity);

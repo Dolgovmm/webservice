@@ -12,7 +12,11 @@ import java.util.List;
  * @date 26.04.2017
  */
 public class FakeRepositoryKeyWordsImpl implements Repository<Keyword>{
-    private List<Keyword> list = new ArrayList<Keyword>();
+    private List<Keyword> list;
+
+    public FakeRepositoryKeyWordsImpl() {
+        list = new ArrayList<>();
+    }
 
     public Keyword add(Keyword entity) {
     	list.add(entity);

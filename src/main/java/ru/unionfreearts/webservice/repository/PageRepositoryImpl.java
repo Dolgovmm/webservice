@@ -18,7 +18,11 @@ import java.util.List;
 public class PageRepositoryImpl implements Repository<Page> {
 	static final Logger logger = LoggerFactory.getLogger(PageRepositoryImpl.class);
 	
-    private DbService<Page> dbService = new DbServiceImpl<Page>(Page.class);
+    private DbService<Page> dbService;
+
+    public PageRepositoryImpl() {
+        dbService = new DbServiceImpl<>(Page.class);
+    }
 
     public Page add(Page entity) throws HibernateException {
 		return dbService.add(entity);

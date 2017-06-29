@@ -12,7 +12,11 @@ import java.util.List;
  * @date 26.04.2017
  */
 public class FakeRepositoryPageImpl implements Repository<Page> {
-    private List<Page> list = new ArrayList<Page>();
+    private List<Page> list;
+
+    public FakeRepositoryPageImpl() {
+        list = new ArrayList<>();
+    }
 
     public Page add(Page entity) {
     	list.add(entity);

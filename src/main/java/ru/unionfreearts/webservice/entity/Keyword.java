@@ -26,7 +26,7 @@ public class Keyword extends AbstractEntity implements Serializable {
         this.person = person;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 

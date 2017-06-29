@@ -18,7 +18,11 @@ import java.util.List;
 public class PersonRepositoryImpl implements Repository<Person> {
 	static final Logger logger = LoggerFactory.getLogger(PersonRepositoryImpl.class);
 	
-    private DbService<Person> dbService = new DbServiceImpl<Person>(Person.class);
+    private DbService<Person> dbService;
+
+    public PersonRepositoryImpl() {
+        dbService = new DbServiceImpl<>(Person.class);
+    }
 
     public Person add(Person entity) throws HibernateException {
         return dbService.add(entity);

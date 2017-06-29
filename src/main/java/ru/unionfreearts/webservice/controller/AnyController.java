@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.AbstractEntity;
-import ru.unionfreearts.webservice.entity.Site;
 import ru.unionfreearts.webservice.repository.Repository;
 
 import java.io.IOException;
@@ -38,14 +37,7 @@ public class AnyController<T extends AbstractEntity> {
 	        }
 			return entity;
 		} catch (IOException ex) {
-			if (logger.isErrorEnabled()) {
-            	StringBuilder sb = new StringBuilder();
-            	sb.append("IOException on read json {");
-            	sb.append(json);
-            	sb.append("} with message: ");
-            	sb.append(ex.getMessage());
-            	logger.error(sb.toString());
-            }
+			logJsonException(json, ex);
 			return null;
 		} catch (HibernateException ex) {
         	if (logger.isErrorEnabled()) {
@@ -66,16 +58,18 @@ public class AnyController<T extends AbstractEntity> {
         T entity = null;
         try {
 	        entity = (T)repository.get(id);
-	        if (logger.isDebugEnabled()) {
-	        	StringBuilder sb = new StringBuilder();
-	        	sb.append("get entity instance of");
-	        	sb.append(tClass);
-	        	sb.append(" by id {");
-	        	sb.append(id);
-	        	sb.append("}: ");
-	        	sb.append(entity.toString());
-	        	logger.debug(sb.toString());
-	        }
+	        if (entity != null) {
+				if (logger.isDebugEnabled()) {
+					StringBuilder sb = new StringBuilder();
+					sb.append("get entity instance of");
+					sb.append(tClass);
+					sb.append(" by id {");
+					sb.append(id);
+					sb.append("}: ");
+					sb.append(entity.toString());
+					logger.debug(sb.toString());
+				}
+			}
 	        return entity;
         } catch (HibernateException ex) {
         	if (logger.isErrorEnabled()) {
@@ -95,14 +89,16 @@ public class AnyController<T extends AbstractEntity> {
     public List<T> getAll(Repository repository, Specification<T> specification, Class tClass) {
         try {
         	List<T> list = repository.query(specification);
-        	if (logger.isDebugEnabled()) {
-	        	StringBuilder sb = new StringBuilder();
-	        	sb.append("get all entity instance of ");
-	        	sb.append(tClass);
-	        	sb.append(": ");
-	        	sb.append(list.toString());
-	        	logger.debug(sb.toString());
-	        }
+        	if (list != null) {
+				if (logger.isDebugEnabled()) {
+					StringBuilder sb = new StringBuilder();
+					sb.append("get all entity instance of ");
+					sb.append(tClass);
+					sb.append(": ");
+					sb.append(list.toString());
+					logger.debug(sb.toString());
+				}
+			}
         	return list;
         } catch (HibernateException ex) {
         	if (logger.isErrorEnabled()) {
@@ -139,14 +135,7 @@ public class AnyController<T extends AbstractEntity> {
 	        return removed;
 	        
         } catch (IOException ex) {
-        	if (logger.isErrorEnabled()) {
-            	StringBuilder sb = new StringBuilder();
-            	sb.append("IOException on read json {");
-            	sb.append(json);
-            	sb.append("} with message: ");
-            	sb.append(ex.getMessage());
-            	logger.error(sb.toString());
-            }
+        	logJsonException(json, ex);
         	return false;
         	
         } catch (HibernateException ex) {
@@ -186,14 +175,7 @@ public class AnyController<T extends AbstractEntity> {
 	        }
 	        return updated;
         } catch (IOException ex) {
-        	if (logger.isErrorEnabled()) {
-            	StringBuilder sb = new StringBuilder();
-            	sb.append("IOException on read json {");
-            	sb.append(json);
-            	sb.append("} with message: ");
-            	sb.append(ex.getMessage());
-            	logger.error(sb.toString());
-            }
+
         	return false;
         } catch (HibernateException ex) {
         	if (logger.isErrorEnabled()) {
@@ -209,4 +191,15 @@ public class AnyController<T extends AbstractEntity> {
         	return false;
         }
     }
+
+    private void logJsonException(String json, IOException ex) {
+		if (logger.isErrorEnabled()) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("IOException on read json {");
+			sb.append(json);
+			sb.append("} with message: ");
+			sb.append(ex.getMessage());
+			logger.error(sb.toString());
+		}
+	}
 }

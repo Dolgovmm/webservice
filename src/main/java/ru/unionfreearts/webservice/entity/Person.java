@@ -30,7 +30,7 @@ public class Person extends AbstractEntity implements Serializable {
         this.name = name;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 

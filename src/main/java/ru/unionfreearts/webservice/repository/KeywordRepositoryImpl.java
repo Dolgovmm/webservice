@@ -18,7 +18,11 @@ import java.util.List;
 public class KeywordRepositoryImpl implements Repository<Keyword> {
 	static final Logger logger = LoggerFactory.getLogger(KeywordRepositoryImpl.class);
 	
-    private DbService<Keyword> dbService = new DbServiceImpl<Keyword>(Keyword.class);
+    private DbService<Keyword> dbService;
+
+    public KeywordRepositoryImpl() {
+        dbService = new DbServiceImpl<>(Keyword.class);
+    }
 
     public Keyword add(Keyword entity) throws HibernateException {
 		return dbService.add(entity);

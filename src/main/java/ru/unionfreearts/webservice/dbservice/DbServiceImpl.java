@@ -3,12 +3,10 @@ package ru.unionfreearts.webservice.dbservice;
 import org.hibernate.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
 
 import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.AbstractEntity;
 
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -20,7 +18,6 @@ import java.util.List;
  * @author M.Dolgov
  * @date 30.04.2017
  */
-@Repository
 public class DbServiceImpl<T extends AbstractEntity> implements DbService<T> {
 	static final Logger logger = LoggerFactory.getLogger(DbServiceImpl.class);
 

@@ -13,7 +13,11 @@ import java.util.List;
  */
 public class FakeRepositorySiteImpl implements Repository<Site> {
 
-    private List<Site> list = new ArrayList<Site>();
+    private List<Site> list;
+
+    public FakeRepositorySiteImpl() {
+        list = new ArrayList<>();
+    }
 
     public Site add(Site entity) {
         list.add(entity);

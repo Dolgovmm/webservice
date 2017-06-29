@@ -19,7 +19,11 @@ public class RankRepositoryImpl implements Repository<Rank>{
 
     static final Logger logger = LoggerFactory.getLogger(SiteRepositoryImpl.class);
 
-    private DbService<Rank> dbService = new DbServiceImpl<>(Rank.class);
+    private DbService<Rank> dbService;
+
+    public RankRepositoryImpl() {
+        dbService = new DbServiceImpl<>(Rank.class);
+    }
 
     public Rank add(Rank entity) throws HibernateException {
         return dbService.add(entity);

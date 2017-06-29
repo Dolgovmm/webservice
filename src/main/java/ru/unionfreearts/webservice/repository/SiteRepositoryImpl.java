@@ -18,33 +18,31 @@ import java.util.List;
  * @author M.Dolgov
  * @date 07.05.2017
  */
-@Service
 public class SiteRepositoryImpl implements Repository<Site> {
     static final Logger logger = LoggerFactory.getLogger(SiteRepositoryImpl.class);
     
-    private DbService<Site> dbService = new DbServiceImpl<>(Site.class);
+    private DbService<Site> dbService;
 
-    @Transactional
+    public SiteRepositoryImpl() {
+        this.dbService = new DbServiceImpl<>(Site.class);
+    }
+
     public Site add(Site entity) throws HibernateException {
         return dbService.add(entity);
     }
 
-    @Transactional
     public Site get(long id) throws HibernateException {
         return dbService.get(id);
     }
 
-    @Transactional
     public boolean remove(Site entity) throws HibernateException {
         return dbService.remove(entity);
     }
 
-    @Transactional
     public boolean update(Site entity) throws HibernateException {
         return dbService.update(entity);
     }
 
-    @Transactional
     @Override
     public List<Site> query(Specification<Site> specification) throws HibernateException {
         return dbService.query(specification);
