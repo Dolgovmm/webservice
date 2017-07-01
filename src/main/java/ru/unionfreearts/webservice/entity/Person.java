@@ -9,6 +9,8 @@ import java.util.Set;
 @Entity
 @Table(name = "persons")
 public class Person extends AbstractEntity implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
     @Id
     @GeneratedValue
     @Column(name = "id")

@@ -8,6 +8,8 @@ import java.io.Serializable;
 @Entity
 @Table(name = "personpagerank")
 public class Rank extends AbstractEntity implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
     @Id
     @ManyToOne(targetEntity = Person.class)
     private Person person;
