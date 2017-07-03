@@ -3,8 +3,9 @@ package ru.unionfreearts.webservice.repository;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import ru.unionfreearts.webservice.dbservice.DbService;
-import ru.unionfreearts.webservice.dbservice.DbServiceImpl;
 import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.Page;
 
@@ -15,14 +16,13 @@ import java.util.List;
  * @author M.Dolgov
  * @date 08.05.2017
  */
+@org.springframework.stereotype.Repository
 public class PageRepositoryImpl implements Repository<Page> {
 	static final Logger logger = LoggerFactory.getLogger(PageRepositoryImpl.class);
 	
-    private DbService<Page> dbService;
-
-    public PageRepositoryImpl() {
-        dbService = new DbServiceImpl<>(Page.class);
-    }
+    @Autowired
+    @Qualifier("dbServicePage")
+	private DbService<Page> dbService;
 
     public Page add(Page entity) throws HibernateException {
 		return dbService.add(entity);

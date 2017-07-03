@@ -24,7 +24,7 @@ import java.util.List;
  * @author M.Dolgov
  * @date 03.04.2017
  */
-@Controller
+@RestController
 @RequestMapping(value = "/keyword", produces = MediaType.APPLICATION_JSON_VALUE)// + "; charset = UTF-8")
 public class KeywordController {
 	static final Logger logger = LoggerFactory.getLogger(KeywordController.class);
@@ -33,10 +33,11 @@ public class KeywordController {
     @Qualifier("keywordRepository")
     private Repository repository;
 
-    private AnyController<Keyword> controller = new AnyController<>();
+    @Autowired
+    @Qualifier("anyControllerKeyword")
+    private AnyController<Keyword> controller;
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    @ResponseBody
     public ResponseEntity<Keyword> addKeyword(@RequestBody String json) {
         Keyword keyword = null;   
         
@@ -46,7 +47,6 @@ public class KeywordController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEntity<Keyword> getKeywordById(@PathVariable long id){
 		Keyword keyword = null;
 		
@@ -56,7 +56,6 @@ public class KeywordController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEntity<List<Keyword>> getKeywordList(){
 		List<Keyword> list = null;
 		
@@ -66,7 +65,6 @@ public class KeywordController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.DELETE)
-    @ResponseBody
     public ResponseEntity<Keyword> removeKeyword(@RequestBody String json){
     	boolean removed;
     	
@@ -80,7 +78,6 @@ public class KeywordController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
-    @ResponseBody
     public ResponseEntity<Keyword> updateKeyword(@RequestBody String json){
     	boolean updated;
 		

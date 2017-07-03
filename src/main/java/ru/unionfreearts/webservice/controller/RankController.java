@@ -23,7 +23,7 @@ import java.util.*;
  * @author M.Dolgov
  * @date 13.05.2017
  */
-@Controller
+@RestController
 @RequestMapping(value = "/stat", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RankController {
     static final Logger logger = LoggerFactory.getLogger(RankController.class);
@@ -33,7 +33,6 @@ public class RankController {
     private Repository repository;
 
     @RequestMapping(value = "/daily", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEntity<List<JSONObject>> getDailyStatistic(@RequestParam(value = "personId") Long personId,
                                                               @RequestParam(value = "siteId") Long siteId,
                                                               @RequestParam(value = "startDate") Long startDate,
@@ -51,17 +50,16 @@ public class RankController {
 	        	sb.append(ranks.toString());
 	        	logger.debug(sb.toString());
 	        }
-            
+
             if (ranks != null) {
             	List<JSONObject> list = null;
             	
             	list = getDailyRanks(ranks, nextDate, endDate);
             	if (logger.isDebugEnabled()) {
     	        	StringBuilder sb = new StringBuilder();
-    	        	sb.append("get list of ");
-    	        	sb.append(Rank.class);
-    	        	sb.append(" from repository:");
-    	        	sb.append(ranks.toString());
+    	        	sb.append("get list of json object");
+    	        	sb.append(" from ranks list:");
+    	        	sb.append(list.toString());
     	        	logger.debug(sb.toString());
     	        }
             	return new ResponseEntity<>(list, HttpStatus.OK);
@@ -89,7 +87,6 @@ public class RankController {
     }
 
     @RequestMapping(value = "/total/{siteId}", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEntity<List<JSONObject>> getTotalStatistic(@PathVariable Long siteId) {        
         try {
             List<Rank> ranks = repository.query(new AllRanksBySite(siteId));

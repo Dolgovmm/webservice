@@ -23,7 +23,7 @@ import java.util.List;
  * @author M.Dolgov
  * @date 03.04.2017
  */
-@Controller
+@RestController
 @RequestMapping(value = "/person", produces = MediaType.APPLICATION_JSON_VALUE)// + "; charset = UTF-8")
 public class PersonController {
 	static final Logger logger = LoggerFactory.getLogger(PersonController.class);
@@ -32,10 +32,11 @@ public class PersonController {
     @Qualifier("personRepository")
     private Repository repository;
 
-    private AnyController<Person> controller = new AnyController<>();
+    @Autowired
+    @Qualifier("anyControllerPerson")
+    private AnyController<Person> controller;
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    @ResponseBody
     public ResponseEntity<Person> addPerson(@RequestBody String json) {
 		Person person = null;
 		
@@ -45,7 +46,6 @@ public class PersonController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEntity<Person> getPersonById(@PathVariable long id){
 		Person person = null;
 		
@@ -55,7 +55,6 @@ public class PersonController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEntity<List<Person>> getPersonList(){
 		List<Person> list = null;
 		
@@ -65,7 +64,6 @@ public class PersonController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.DELETE)
-    @ResponseBody
     public ResponseEntity<Person> removePerson(@RequestBody String json){
     	boolean removed;
     	
@@ -79,7 +77,6 @@ public class PersonController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
-    @ResponseBody
     public ResponseEntity<Person> updatePerson(@RequestBody String json){
 		boolean updated;
 		

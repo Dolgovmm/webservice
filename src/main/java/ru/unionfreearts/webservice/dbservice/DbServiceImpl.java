@@ -4,6 +4,7 @@ import org.hibernate.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.stereotype.Service;
 import ru.unionfreearts.webservice.dbservice.specification.Specification;
 import ru.unionfreearts.webservice.entity.AbstractEntity;
 
@@ -11,6 +12,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
@@ -18,6 +20,7 @@ import java.util.List;
  * @author M.Dolgov
  * @date 30.04.2017
  */
+@Service
 public class DbServiceImpl<T extends AbstractEntity> implements DbService<T> {
 	static final Logger logger = LoggerFactory.getLogger(DbServiceImpl.class);
 
@@ -25,6 +28,9 @@ public class DbServiceImpl<T extends AbstractEntity> implements DbService<T> {
 
     public DbServiceImpl(Class<T> tClass) {
 		this.tClass = tClass;
+    }
+
+    public DbServiceImpl() {
     }
 
     public T add(T entity) throws HibernateException {

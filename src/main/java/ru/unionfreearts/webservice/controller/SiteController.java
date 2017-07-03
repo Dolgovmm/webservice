@@ -1,6 +1,5 @@
 package ru.unionfreearts.webservice.controller;
 
-import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,14 +7,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.unionfreearts.webservice.dbservice.specification.AllSites;
 import ru.unionfreearts.webservice.entity.Site;
 import ru.unionfreearts.webservice.repository.Repository;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +20,7 @@ import java.util.List;
  * @author M.Dolgov
  * @date 26.04.2017
  */
-@Controller
+@RestController
 @RequestMapping(value = "/site", produces = MediaType.APPLICATION_JSON_VALUE)//+ "; charset = UTF-8")
 public class SiteController {
     static final Logger logger = LoggerFactory.getLogger(SiteController.class);
@@ -33,10 +29,11 @@ public class SiteController {
     @Qualifier("siteRepository")
     private Repository repository;
 
-    private AnyController<Site> controller = new AnyController<>();
+    @Autowired
+    @Qualifier("anyControllerSite")
+    private AnyController<Site> controller;
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    @ResponseBody
     public ResponseEntity<Site> addSite(@RequestBody String json) {
         Site site = null;
         site = controller.add(repository, json, Site.class);
@@ -44,15 +41,13 @@ public class SiteController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEntity<Site> getSiteById(@PathVariable long id) {
-            Site site = null;
-            site = controller.getById(repository, id, Site.class);
-            return new ResponseEntity<>(site, HttpStatus.OK);
+        Site site = null;
+        site = controller.getById(repository, id, Site.class);
+        return new ResponseEntity<>(site, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEntity<List<Site>> getAllSites() {
         List<Site> list = null;
         list = controller.getAll(repository, new AllSites(), Site.class);
@@ -60,7 +55,6 @@ public class SiteController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.DELETE)
-    @ResponseBody
     public ResponseEntity<Site> removeSite(@RequestBody String json) {
         boolean removed;
 
@@ -73,7 +67,6 @@ public class SiteController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
-    @ResponseBody
     public ResponseEntity<Site> updateSite(@RequestBody String json) {
         boolean updated;
 

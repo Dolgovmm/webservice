@@ -23,7 +23,7 @@ import java.util.List;
  * @author M.Dolgov
  * @date 03.04.2017
  */
-@Controller
+@RestController
 @RequestMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)// + "; charset = UTF-8")
 public class PageController {
 	static final Logger logger = LoggerFactory.getLogger(PageController.class);
@@ -32,10 +32,11 @@ public class PageController {
     @Qualifier("pageRepository")
     private Repository repository;
 
-    private AnyController<Page> controller = new AnyController<>();
+    @Autowired
+    @Qualifier("anyControllerPage")
+    private AnyController<Page> controller;
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    @ResponseBody
     public ResponseEntity<Page> addPage(@RequestBody String json) {
         Page page = null;    
         
@@ -45,7 +46,6 @@ public class PageController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEntity<Page> getPageById(@PathVariable long id){
 		Page page = null; 
 		
@@ -55,7 +55,6 @@ public class PageController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEntity<List<Page>> getPageList(){
     	List<Page> list = null;
     	
@@ -65,7 +64,6 @@ public class PageController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.DELETE)
-    @ResponseBody
     public ResponseEntity<Page> removePage(@RequestBody String json){
     	boolean removed;
     	
@@ -79,7 +77,6 @@ public class PageController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
-    @ResponseBody
     public ResponseEntity<Page> updatePage(@RequestBody String json){
 		boolean updated;
 		

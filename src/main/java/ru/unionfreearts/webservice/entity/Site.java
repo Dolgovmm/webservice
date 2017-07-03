@@ -15,8 +15,10 @@ public class Site extends AbstractEntity implements Serializable {
     @GeneratedValue
     @Column(name = "id")
     private long id;
+
     @Column(name = "name", length = 248, nullable = false, unique = true)
     private String name;
+
     @JsonIgnore
     @OneToMany(targetEntity = Page.class, mappedBy = "site")
     private Set<Page> pages;

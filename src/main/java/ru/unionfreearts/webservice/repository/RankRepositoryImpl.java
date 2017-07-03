@@ -3,6 +3,8 @@ package ru.unionfreearts.webservice.repository;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import ru.unionfreearts.webservice.dbservice.DbService;
 import ru.unionfreearts.webservice.dbservice.DbServiceImpl;
 import ru.unionfreearts.webservice.dbservice.specification.Specification;
@@ -15,15 +17,14 @@ import java.util.List;
  * @author M.Dolgov
  * @date 07.05.2017
  */
+@org.springframework.stereotype.Repository
 public class RankRepositoryImpl implements Repository<Rank>{
 
     static final Logger logger = LoggerFactory.getLogger(SiteRepositoryImpl.class);
 
+    @Autowired
+    @Qualifier("dbServiceRank")
     private DbService<Rank> dbService;
-
-    public RankRepositoryImpl() {
-        dbService = new DbServiceImpl<>(Rank.class);
-    }
 
     public Rank add(Rank entity) throws HibernateException {
         return dbService.add(entity);

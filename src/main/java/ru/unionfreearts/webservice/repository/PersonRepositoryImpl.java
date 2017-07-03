@@ -3,6 +3,8 @@ package ru.unionfreearts.webservice.repository;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import ru.unionfreearts.webservice.dbservice.DbService;
 import ru.unionfreearts.webservice.dbservice.DbServiceImpl;
 import ru.unionfreearts.webservice.dbservice.specification.Specification;
@@ -15,14 +17,13 @@ import java.util.List;
  * @author M.Dolgov
  * @date 08.05.2017
  */
+@org.springframework.stereotype.Repository
 public class PersonRepositoryImpl implements Repository<Person> {
 	static final Logger logger = LoggerFactory.getLogger(PersonRepositoryImpl.class);
 	
-    private DbService<Person> dbService;
-
-    public PersonRepositoryImpl() {
-        dbService = new DbServiceImpl<>(Person.class);
-    }
+    @Autowired
+    @Qualifier("dbServicePerson")
+	private DbService<Person> dbService;
 
     public Person add(Person entity) throws HibernateException {
         return dbService.add(entity);

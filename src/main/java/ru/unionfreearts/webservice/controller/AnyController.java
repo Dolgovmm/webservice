@@ -57,8 +57,9 @@ public class AnyController<T extends AbstractEntity> {
     public T getById(Repository repository, long id, Class tClass) {
         T entity = null;
         try {
-	        entity = (T)repository.get(id);
-	        if (entity != null) {
+        	entity = (T)repository.get(id);
+
+			if (entity != null) {
 				if (logger.isDebugEnabled()) {
 					StringBuilder sb = new StringBuilder();
 					sb.append("get entity instance of");
@@ -151,8 +152,6 @@ public class AnyController<T extends AbstractEntity> {
             }
         	return false;
         }
-
-        
     }
 
     public boolean update(Repository repository, String json, Class tClass) {
